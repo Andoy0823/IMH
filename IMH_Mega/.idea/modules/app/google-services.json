@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "463176678727",
+    "firebase_url": "https://imhmega-5e63a.firebaseio.com",
+    "project_id": "imhmega-5e63a",
+    "storage_bucket": "imhmega-5e63a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:463176678727:android:310b325b001553e0202062",
+        "android_client_info": {
+          "package_name": "com.example.imh_mega"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "463176678727-c723jklnr7d27g5vp8elu437sujnkmfr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.imh_mega",
+            "certificate_hash": "31897926c6b18d09e07f1daf2d60eb98c345b195"
+          }
+        },
+        {
+          "client_id": "463176678727-bpn6oafrbc2323kv1u1gtqa28bjn6dci.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDrKNbAS6CewVACXxeuVdxwj9AF7G6hSDU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "463176678727-bpn6oafrbc2323kv1u1gtqa28bjn6dci.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
