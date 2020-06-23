@@ -15,14 +15,6 @@
       },
       "oauth_client": [
         {
-          "client_id": "463176678727-ctotmvvouvddojar5k3moh6o8ksfghlp.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.imh_mega",
-            "certificate_hash": "528ca211d3bb7da6c9a5104cb390e2c702897c67"
-          }
-        },
-        {
           "client_id": "463176678727-c723jklnr7d27g5vp8elu437sujnkmfr.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
