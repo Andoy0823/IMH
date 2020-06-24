@@ -9,25 +9,27 @@
     <!-- User Input -->
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/userInputFieldID"
+
+        android:id="@+id/textInputLayout3"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
-        android:layout_height="74dp"
 
-        android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890"
+        android:layout_height="74dp"
 
         android:layout_marginStart="32dp"
 
         android:layout_marginEnd="32dp"
+        android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890"
+
         android:hint="@string/username"
         app:boxBackgroundMode="outline"
-        app:boxCornerRadiusBottomEnd="16dp"
 
+        app:boxCornerRadiusBottomEnd="16dp"
         app:boxCornerRadiusBottomStart="16dp"
+
         app:boxCornerRadiusTopEnd="16dp"
 
         app:boxCornerRadiusTopStart="16dp"
-
         app:counterEnabled="true"
         app:counterMaxLength="16"
         app:endIconMode="clear_text"
@@ -37,6 +39,8 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
+
+            android:id="@+id/userInputFieldID"
             android:layout_width="match_parent"
             android:layout_height="52dp" />
 
@@ -45,29 +49,32 @@
     <!-- Password Input -->
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/passInputFieldID"
+
+        android:id="@+id/textInputLayout"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginTop="136dp"
-        android:layout_marginEnd="32dp"
 
+        android:layout_marginEnd="32dp"
         android:hint="@string/password"
         app:boxBackgroundMode="outline"
         app:boxCornerRadiusBottomEnd="16dp"
         app:boxCornerRadiusBottomStart="16dp"
+
         app:boxCornerRadiusTopEnd="16dp"
 
-        app:endIconMode="password_toggle"
-
         app:boxCornerRadiusTopStart="16dp"
+        app:endIconMode="password_toggle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
+
+            android:id="@+id/passInputFieldID"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
@@ -75,30 +82,32 @@
 
     <!-- Login Button -->
 
+
+    <!-- Sign-Up Button -->
+
     <Button
         android:id="@+id/loginBtnID"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="65dp"
         android:text="Login"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.9"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/passInputFieldID" />
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout" />
 
-    <!-- Sign-Up Button -->
 
     <Button
         android:id="@+id/signUpBtnID"
         style="@style/Widget.MaterialComponents.Button.TextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="64dp"
         android:text="Sign-Up"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.547"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/passInputFieldID" />
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout" />
 
     <ImageView
         android:id="@+id/imageView2"
