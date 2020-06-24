@@ -89,10 +89,9 @@ public class LoginActivity extends AppCompatActivity {
 
                         startActivity(intentMain);
                     }
-                    else{
-                        Toast.makeText(LoginActivity.this, "Invalid Password", Toast.LENGTH_SHORT).show();
-                        passLogin.setText("");
-                    }
+                    Toast.makeText(LoginActivity.this, "Invalid Login", Toast.LENGTH_SHORT).show();
+                    userLogin.setText("");
+                    passLogin.setText("");
                 }
                 else{
                     Toast.makeText(LoginActivity.this, "Invalid Login", Toast.LENGTH_SHORT).show();
