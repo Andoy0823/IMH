@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/report_graph"
+    app:startDestination="@id/incidentReportFragment">
+    <fragment
+        android:id="@+id/incidentReportFragment"
+        android:name="com.example.imh_mega.IncidentReportFragment"
+        android:label="fragment_incident_report"
+        tools:layout="@layout/fragment_incident_report" >
+        <action
+            android:id="@+id/action_incidentReportFragment_to_locationHistoryReportFragment"
+            app:destination="@id/locationHistoryReportFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/locationHistoryReportFragment"
+        android:name="com.example.imh_mega.LocationHistoryReportFragment"
+        android:label="fragment_location_history_report"
+        tools:layout="@layout/fragment_location_history_report" >
+        <action
+            android:id="@+id/action_locationHistoryReportFragment_to_incidentReportFragment"
+            app:destination="@id/incidentReportFragment" />
+    </fragment>
+</navigation>
