@@ -4,4 +4,11 @@
     <string name="password">Password</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    
+    <string-array name="reportTypes">
+        <item>Choose A Report: </item>
+        <item>Incident Report</item>
+        <item>Location History Report</item>
+
+    </string-array>
 </resources>
