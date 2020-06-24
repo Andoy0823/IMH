@@ -16,5 +16,6 @@ public class LoginActivity extends AppCompatActivity {
 
         TextInputEditText userLogin, passLogin;
         Button loginBtn, signupBtn;
+
     }
 }
