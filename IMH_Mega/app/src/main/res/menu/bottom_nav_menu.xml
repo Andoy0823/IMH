@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/homeFragment"
+        android:icon="@drawable/home_vector"
+        android:title="Home" />
+    <item
+        android:id="@+id/reportFragment"
+        android:icon="@drawable/report_vector"
+        android:title="Reports" />
+    <item
+        android:id="@+id/riderDetailsFragment"
+        android:icon="@drawable/rider_vector"
+        android:title="Riders" />
+</menu>
