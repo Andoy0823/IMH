@@ -13,6 +13,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 
@@ -20,6 +21,9 @@ public class RealTimeMapViewFragment extends Fragment implements OnMapReadyCallb
 
     MapView mapView;
     GoogleMap mGoogleMap;
+    double Latitude = 14.350099;
+    double Longitude = 120.944006;
+
 
     public RealTimeMapViewFragment() {
         // Required empty public constructor
@@ -42,8 +46,8 @@ public class RealTimeMapViewFragment extends Fragment implements OnMapReadyCallb
     public void onMapReady(GoogleMap googleMap) {
         mGoogleMap = googleMap;
         mGoogleMap.getUiSettings().setZoomControlsEnabled(true);
-        //mGoogleMap.addMarker(new MarkerOptions().position(/*some location*/));
-        //mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(/*some location*/, 10));
+        mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(Latitude, Longitude)));
+        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(Latitude, Longitude), 15));
     }
 
     @Override
