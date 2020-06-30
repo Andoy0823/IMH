@@ -29,12 +29,12 @@
         tools:layout="@layout/fragment_rider_details" />
     <fragment
         android:id="@+id/realTimeMapFragment"
-        android:name="com.example.imh_mega.RealTimeMapFragment"
+        android:name="com.example.imh_mega.Fragments.RealTimeMapFragment"
         android:label="fragment_real_time_map"
         tools:layout="@layout/fragment_real_time_map" />
     <fragment
         android:id="@+id/realTimeMapViewFragment"
-        android:name="com.example.imh_mega.RealTimeMapViewFragment"
+        android:name="com.example.imh_mega.Fragments.RealTimeMapViewFragment"
         android:label="fragment_real_time_map_view"
         tools:layout="@layout/fragment_real_time_map_view" />
 </navigation>
