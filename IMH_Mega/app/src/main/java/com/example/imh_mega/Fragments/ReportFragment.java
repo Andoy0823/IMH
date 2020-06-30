@@ -35,21 +35,5 @@ public class ReportFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_report, container, false);
     }
 
-    /*
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        spinnerReportType = view.findViewById(R.id.spinnerReportTypeID);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(), R.array.reportTypes, android.R.layout.simple_spinner_item);
-
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        spinnerReportType.setAdapter(adapter);
-        spinnerReportType.setOnItemSelectedListener(this);
-
-    }
-
-     */
 
 }

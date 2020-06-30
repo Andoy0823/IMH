@@ -9,7 +9,14 @@
         android:id="@+id/homeFragment"
         android:name="com.example.imh_mega.Fragments.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_realTimeMapFragment"
+            app:destination="@id/realTimeMapFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_realTimeMapViewFragment"
+            app:destination="@id/realTimeMapViewFragment" />
+    </fragment>
     <fragment
         android:id="@+id/reportFragment"
         android:name="com.example.imh_mega.Fragments.ReportFragment"
@@ -20,4 +27,14 @@
         android:name="com.example.imh_mega.Fragments.RiderDetailsFragment"
         android:label="fragment_rider_details"
         tools:layout="@layout/fragment_rider_details" />
+    <fragment
+        android:id="@+id/realTimeMapFragment"
+        android:name="com.example.imh_mega.RealTimeMapFragment"
+        android:label="fragment_real_time_map"
+        tools:layout="@layout/fragment_real_time_map" />
+    <fragment
+        android:id="@+id/realTimeMapViewFragment"
+        android:name="com.example.imh_mega.RealTimeMapViewFragment"
+        android:label="fragment_real_time_map_view"
+        tools:layout="@layout/fragment_real_time_map_view" />
 </navigation>
