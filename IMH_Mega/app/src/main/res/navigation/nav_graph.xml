@@ -9,7 +9,11 @@
         android:id="@+id/homeFragment"
         android:name="com.example.imh_mega.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_realTimeMapFragment"
+            app:destination="@id/realTimeMapFragment" />
+    </fragment>
     <fragment
         android:id="@+id/reportFragment"
         android:name="com.example.imh_mega.ReportFragment"
@@ -20,4 +24,9 @@
         android:name="com.example.imh_mega.RiderDetailsFragment"
         android:label="fragment_rider_details"
         tools:layout="@layout/fragment_rider_details" />
+    <fragment
+        android:id="@+id/realTimeMapFragment"
+        android:name="com.example.imh_mega.RealTimeMapFragment"
+        android:label="fragment_real_time_map"
+        tools:layout="@layout/fragment_real_time_map" />
 </navigation>
