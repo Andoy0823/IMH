@@ -16,7 +16,7 @@ import android.widget.Button;
 
 public class HomeFragment extends Fragment {
 
-    Button btnPlotToMaps;
+    Button btnPlotToMaps, btnUpdateLoc;
     NavController navController;
 
     public HomeFragment() {
@@ -37,12 +37,22 @@ public class HomeFragment extends Fragment {
 
         navController = Navigation.findNavController(view);
         btnPlotToMaps = view.findViewById(R.id.btnPlotToMapsID);
+        btnUpdateLoc = view.findViewById(R.id.btnUpdateLocID);
         btnPlotToMaps.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 navController.navigate(R.id.action_homeFragment_to_realTimeMapFragment);
             }
         });
+
+        btnUpdateLoc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                navController.navigate(R.id.action_homeFragment_to_realTimeMapViewFragment);
+            }
+        });
+
+
 
     }
 }
