@@ -103,6 +103,8 @@
 
         app:endIconMode="password_toggle"
 
+
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -111,6 +113,8 @@
 
             android:id="@+id/passSignupFieldID"
             android:maxLines="1"
+            android:inputType="textPassword"
+            android:maxLength="32"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
@@ -144,7 +148,9 @@
         <com.google.android.material.textfield.TextInputEditText
 
             android:id="@+id/confirmpassSignupFieldID"
+            android:maxLength="32"
             android:maxLines="1"
+            android:inputType="textPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
@@ -177,6 +183,7 @@
 
         <com.google.android.material.textfield.TextInputEditText
 
+            android:maxLength="10"
             android:id="@+id/phoneSignupFieldID"
             android:maxLines="1"
             android:layout_width="match_parent"

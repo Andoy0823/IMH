@@ -1,18 +1,27 @@
-package com.example.imh_mega;
+package com.example.imh_mega.BackgroundTasks;
 
 public class SignUpHelper {
 
-    String vipName, username, password, phone, address;
+    String vipID, vipName, username, password, phone, address;
 
     public SignUpHelper() {
     }
 
-    public SignUpHelper(String vipName, String username, String password, String phone, String address) {
+    public SignUpHelper(String vipID, String vipName, String username, String password, String phone, String address) {
         this.vipName = vipName;
         this.username = username;
         this.password = password;
         this.phone = phone;
         this.address = address;
+        this.vipID = vipID;
+    }
+
+    public String getVipID() {
+        return vipID;
+    }
+
+    public void setVipID(String vipID) {
+        this.vipID = vipID;
     }
 
     public String getVipName() {

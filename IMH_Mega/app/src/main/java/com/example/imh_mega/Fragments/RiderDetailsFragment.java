@@ -1,4 +1,4 @@
-package com.example.imh_mega;
+package com.example.imh_mega.Fragments;
 
 import android.os.Bundle;
 
@@ -8,11 +8,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.imh_mega.R;
 
-public class HomeFragment extends Fragment {
+
+public class RiderDetailsFragment extends Fragment {
 
 
-    public HomeFragment() {
+
+    public RiderDetailsFragment() {
         // Required empty public constructor
     }
 
@@ -21,6 +24,6 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false);
+        return inflater.inflate(R.layout.fragment_rider_details, container, false);
     }
 }

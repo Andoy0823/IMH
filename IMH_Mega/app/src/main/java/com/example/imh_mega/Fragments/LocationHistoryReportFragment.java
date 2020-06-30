@@ -1,4 +1,4 @@
-package com.example.imh_mega;
+package com.example.imh_mega.Fragments;
 
 import android.os.Bundle;
 
@@ -15,6 +15,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+
+import com.example.imh_mega.R;
 
 
 public class LocationHistoryReportFragment extends Fragment {
