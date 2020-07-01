@@ -36,5 +36,9 @@
         android:id="@+id/realTimeMapViewFragment"
         android:name="com.example.imh_mega.Fragments.RealTimeMapViewFragment"
         android:label="fragment_real_time_map_view"
-        tools:layout="@layout/fragment_real_time_map_view" />
+        tools:layout="@layout/fragment_real_time_map_view" >
+        <action
+            android:id="@+id/action_realTimeMapViewFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
 </navigation>

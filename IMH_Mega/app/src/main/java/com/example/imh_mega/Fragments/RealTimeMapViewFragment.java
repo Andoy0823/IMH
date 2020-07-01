@@ -3,11 +3,15 @@ package com.example.imh_mega.Fragments;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.example.imh_mega.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -25,6 +29,9 @@ public class RealTimeMapViewFragment extends Fragment implements OnMapReadyCallb
     double Latitude = 14.350099;
     double Longitude = 120.944006;
 
+    NavController navController;
+    Button btnBackToHome, btnRealTimeWaze;
+
 
     public RealTimeMapViewFragment() {
         // Required empty public constructor
@@ -40,7 +47,24 @@ public class RealTimeMapViewFragment extends Fragment implements OnMapReadyCallb
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(this);
 
+
         return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        navController = Navigation.findNavController(view);
+        btnBackToHome = view.findViewById(R.id.btnBackToHomeID);
+        btnRealTimeWaze = view.findViewById(R.id.btnRealTimeWazeID);
+
+        btnBackToHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                navController.navigate(R.id.action_realTimeMapViewFragment_to_homeFragment);
+            }
+        });
     }
 
     @Override
