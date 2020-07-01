@@ -23,6 +23,7 @@ public class LocationHistoryReportFragment extends Fragment {
 
     NavController navController;
     Spinner spinnerLocReportType;
+    Button btnPlotReport;
 
     public LocationHistoryReportFragment() {
         // Required empty public constructor
@@ -42,6 +43,7 @@ public class LocationHistoryReportFragment extends Fragment {
 
         navController = Navigation.findNavController(view);
         spinnerLocReportType = view.findViewById(R.id.spinnerLocReportTypeID);
+        btnPlotReport = view.findViewById(R.id.btnPlotHistoryLocID);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(), R.array.reportTypes, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerLocReportType.setAdapter(adapter);
@@ -60,5 +62,14 @@ public class LocationHistoryReportFragment extends Fragment {
 
             }
         });
+
+        btnPlotReport.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                navController.navigate(R.id.action_locationHistoryReportFragment_to_reportMapViewFragment);
+            }
+        });
+
+
     }
 }
