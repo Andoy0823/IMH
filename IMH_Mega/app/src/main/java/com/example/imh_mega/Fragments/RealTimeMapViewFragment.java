@@ -1,5 +1,7 @@
 package com.example.imh_mega.Fragments;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -63,6 +65,15 @@ public class RealTimeMapViewFragment extends Fragment implements OnMapReadyCallb
             @Override
             public void onClick(View view) {
                 navController.navigate(R.id.action_realTimeMapViewFragment_to_homeFragment);
+            }
+        });
+
+        btnRealTimeWaze.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String naviWaze = ("waze://?ll="+Latitude+","+Longitude+"&navigate=yes");
+                Intent intentToWaze = new Intent(Intent.ACTION_VIEW, Uri.parse(naviWaze));
+                startActivity(intentToWaze);
             }
         });
     }
