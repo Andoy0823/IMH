@@ -15,4 +15,13 @@ public interface APIInterface {
     Call<VipModel> loginUser(@Field("VipUsername") String vipUsername,
                              @Field("VipPassword") String vipPassword);
 
+    @FormUrlEncoded
+    @POST("app_register.php")
+
+    Call<VipModel> registerUser(@Field("VipFullName") String vipFullName,
+                                @Field("VipUsername") String vipUsername,
+                                @Field("VipPassword") String vipPassword,
+                                @Field("VipPhone") String vipPhone,
+                                @Field("VipAddress") String vipAddress);
+
 }

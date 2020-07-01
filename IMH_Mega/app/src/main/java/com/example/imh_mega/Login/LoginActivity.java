@@ -59,13 +59,13 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<VipModel> call, Response<VipModel> response) {
 
-                        if (response.isSuccessful() && response.body() != null){
+                        if (response.body() != null){
 
                             VipModel vipMowdel = response.body();
 
                             if (vipMowdel.isSuccess()){
 
-                                Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(LoginActivity.this, vipMowdel.getMessage(), Toast.LENGTH_SHORT).show();
                                 Intent mainAct = new Intent(LoginActivity.this, MainActivity.class);
                                 startActivity(mainAct);
 
@@ -73,12 +73,10 @@ public class LoginActivity extends AppCompatActivity {
 
                             else{
 
-                                Toast.makeText(LoginActivity.this, "Invalid Credentials", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(LoginActivity.this, vipMowdel.getMessage(), Toast.LENGTH_SHORT).show();
 
                             }
-
                         }
-
                     }
 
                     @Override
@@ -88,7 +86,6 @@ public class LoginActivity extends AppCompatActivity {
 
                     }
                 });
-
             }
         });
 
@@ -101,7 +98,5 @@ public class LoginActivity extends AppCompatActivity {
 
             }
         });
-
     }
-
 }
