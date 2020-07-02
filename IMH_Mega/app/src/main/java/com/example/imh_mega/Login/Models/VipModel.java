@@ -18,6 +18,10 @@ public class VipModel {
     private String VipPassword;
 
     @Expose
+    @SerializedName("VipConfirmPassword")
+    private String VipConfirmPassword;
+
+    @Expose
     @SerializedName("VipPhone")
     private String VipPhone;
 
@@ -55,6 +59,14 @@ public class VipModel {
 
     public void setVipPassword(String vipPassword) {
         VipPassword = vipPassword;
+    }
+
+    public String getVipConfirmPassword() {
+        return VipConfirmPassword;
+    }
+
+    public void setVipConfirmPassword(String vipConfirmPassword) {
+        VipConfirmPassword = vipConfirmPassword;
     }
 
     public String getVipPhone() {

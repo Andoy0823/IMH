@@ -27,6 +27,7 @@ public class SignUpActivity extends AppCompatActivity {
     @BindView(R.id.fullnameSignupFieldID) TextInputEditText editvipName;
     @BindView(R.id.userSignupFieldID) TextInputEditText edituserName;
     @BindView(R.id.passSignupFieldID) TextInputEditText editpassword;
+    @BindView(R.id.confirmPassSignupFieldID) TextInputEditText editconfirmPassword;
     @BindView(R.id.phoneSignupFieldID) TextInputEditText editPhone;
     @BindView(R.id.addressSignupFieldID) TextInputEditText editAddress;
 
@@ -56,6 +57,7 @@ public class SignUpActivity extends AppCompatActivity {
                             editvipName.getText().toString().trim(),
                             edituserName.getText().toString().trim(),
                             editpassword.getText().toString().trim(),
+                            editconfirmPassword.getText().toString().trim(),
                             editPhone.getText().toString().trim(),
                             editAddress.getText().toString().trim());
 

@@ -21,6 +21,7 @@ public interface APIInterface {
     Call<VipModel> registerUser(@Field("VipFullName") String vipFullName,
                                 @Field("VipUsername") String vipUsername,
                                 @Field("VipPassword") String vipPassword,
+                                @Field("VipConfirmPassword") String vipConfirmPassword,
                                 @Field("VipPhone") String vipPhone,
                                 @Field("VipAddress") String vipAddress);
 
