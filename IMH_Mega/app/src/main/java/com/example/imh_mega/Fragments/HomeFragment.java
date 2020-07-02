@@ -43,14 +43,14 @@ public class HomeFragment extends Fragment {
         btnPlotToMaps.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                navController.navigate(R.id.action_homeFragment_to_realTimeMapFragment);
+                navController.navigate(R.id.action_homeFragment_to_realTimeMapViewFragment);
             }
         });
 
         btnUpdateLoc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                navController.navigate(R.id.action_homeFragment_to_realTimeMapViewFragment);
+
             }
         });
 

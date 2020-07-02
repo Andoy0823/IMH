@@ -1,7 +1,5 @@
 package com.example.imh_mega.Fragments;
 
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -24,18 +22,17 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 
-public class RealTimeMapViewFragment extends Fragment implements OnMapReadyCallback {
+public class ReportMapViewFragment extends Fragment implements OnMapReadyCallback {
 
     MapView mapView;
-    GoogleMap mGoogleMap;
     double Latitude = 14.350099;
     double Longitude = 120.944006;
+    GoogleMap mGoogleMap;
 
     NavController navController;
-    Button btnBackToHome, btnRealTimeWaze;
+    Button btnBackToReport;
 
-
-    public RealTimeMapViewFragment() {
+    public ReportMapViewFragment() {
         // Required empty public constructor
     }
 
@@ -44,11 +41,11 @@ public class RealTimeMapViewFragment extends Fragment implements OnMapReadyCallb
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_real_time_map_view, container, false);
-        mapView = view.findViewById(R.id.mapViewRTID);
+        View view = inflater.inflate(R.layout.fragment_report_map_view, container, false);
+
+        mapView = view.findViewById(R.id.mapViewReportID);
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(this);
-
 
         return view;
     }
@@ -57,33 +54,25 @@ public class RealTimeMapViewFragment extends Fragment implements OnMapReadyCallb
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        btnBackToReport = view.findViewById(R.id.btnBackToReportID);
         navController = Navigation.findNavController(view);
-        btnBackToHome = view.findViewById(R.id.btnBackToHomeID);
-        btnRealTimeWaze = view.findViewById(R.id.btnRealTimeWazeID);
 
-        btnBackToHome.setOnClickListener(new View.OnClickListener() {
+        btnBackToReport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                navController.navigate(R.id.action_realTimeMapViewFragment_to_homeFragment);
-            }
-        });
-
-        btnRealTimeWaze.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String naviWaze = ("waze://?ll="+Latitude+","+Longitude+"&navigate=yes");
-                Intent intentToWaze = new Intent(Intent.ACTION_VIEW, Uri.parse(naviWaze));
-                startActivity(intentToWaze);
+                navController.navigate(R.id.action_reportMapViewFragment_to_locationHistoryReportFragment);
             }
         });
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
+
         mGoogleMap = googleMap;
         mGoogleMap.getUiSettings().setZoomControlsEnabled(true);
         mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(Latitude, Longitude)));
         mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(Latitude, Longitude), 15));
+
     }
 
     @Override

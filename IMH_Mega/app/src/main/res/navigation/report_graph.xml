@@ -21,5 +21,17 @@
         <action
             android:id="@+id/action_locationHistoryReportFragment_to_incidentReportFragment"
             app:destination="@id/incidentReportFragment" />
+        <action
+            android:id="@+id/action_locationHistoryReportFragment_to_reportMapViewFragment"
+            app:destination="@id/reportMapViewFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/reportMapViewFragment"
+        android:name="com.example.imh_mega.Fragments.ReportMapViewFragment"
+        android:label="fragment_report_map_view"
+        tools:layout="@layout/fragment_report_map_view" >
+        <action
+            android:id="@+id/action_reportMapViewFragment_to_locationHistoryReportFragment"
+            app:destination="@id/locationHistoryReportFragment" />
     </fragment>
 </navigation>
