@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.imh_mega.LoadingDialog;
 import com.example.imh_mega.Login.Models.VipModel;
 import com.example.imh_mega.MainActivity;
 import com.example.imh_mega.R;
@@ -15,8 +16,6 @@ import com.example.imh_mega.Retrofit.ApiClient;
 import com.example.imh_mega.Retrofit.APIInterface;
 import com.example.imh_mega.SignUp.SignUpActivity;
 import com.google.android.material.textfield.TextInputEditText;
-
-import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -31,6 +30,8 @@ public class LoginActivity extends AppCompatActivity {
 
     APIInterface apiInterface;
 
+    LoadingDialog loadingDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,16 +43,17 @@ public class LoginActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
-
         Button loginBtn, signupBtn;
 
         signupBtn = findViewById(R.id.signUpBtnID);
         loginBtn = findViewById(R.id.loginBtnID);
 
+        loadingDialog = new LoadingDialog(LoginActivity.this);
+
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                loadingDialog.startLoadingDialog();
                 Call<VipModel> VipModelCall = apiInterface.loginUser(editUserLogin.getText().toString().trim(),
                                                                         editPassLogin.getText().toString().trim());
 
@@ -68,12 +70,14 @@ public class LoginActivity extends AppCompatActivity {
                                 Toast.makeText(LoginActivity.this, vipMowdel.getMessage(), Toast.LENGTH_SHORT).show();
                                 Intent mainAct = new Intent(LoginActivity.this, MainActivity.class);
                                 startActivity(mainAct);
+                                loadingDialog.dismissDialog();
 
                             }
 
                             else{
 
                                 Toast.makeText(LoginActivity.this, vipMowdel.getMessage(), Toast.LENGTH_SHORT).show();
+                                loadingDialog.dismissDialog();
 
                             }
                         }
@@ -83,7 +87,7 @@ public class LoginActivity extends AppCompatActivity {
                     public void onFailure(Call<VipModel> call, Throwable t) {
 
                         Toast.makeText(LoginActivity.this, "Invalid Credentials", Toast.LENGTH_SHORT).show();
-
+                        loadingDialog.dismissDialog();
                     }
                 });
             }

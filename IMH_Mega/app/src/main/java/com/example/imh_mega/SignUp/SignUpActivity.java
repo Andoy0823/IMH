@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.imh_mega.LoadingDialog;
 import com.example.imh_mega.Login.LoginActivity;
 import com.example.imh_mega.Login.Models.VipModel;
 import com.example.imh_mega.MainActivity;
@@ -32,6 +33,8 @@ public class SignUpActivity extends AppCompatActivity {
 
     APIInterface apiInterface;
 
+    LoadingDialog loadingDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,13 +48,14 @@ public class SignUpActivity extends AppCompatActivity {
 
         signUpBtn = findViewById(R.id.signUpDbBtnID);
         clrFieldBtn = findViewById(R.id.clearfieldsignupBtnID);
+        loadingDialog = new LoadingDialog(SignUpActivity.this);
 
             signUpBtn.setEnabled(true);
 
             signUpBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    loadingDialog.startLoadingDialog();
                     Call<VipModel> registerCall = apiInterface.registerUser(
                             editvipName.getText().toString().trim(),
                             edituserName.getText().toString().trim(),
@@ -72,12 +76,14 @@ public class SignUpActivity extends AppCompatActivity {
                                     Toast.makeText(SignUpActivity.this, vipMowdel.getMessage(), Toast.LENGTH_SHORT).show();
                                     Intent loginAct = new Intent(SignUpActivity.this, LoginActivity.class);
                                     startActivity(loginAct);
+                                    loadingDialog.dismissDialog();
 
                                 }
 
                                 else{
 
                                     Toast.makeText(SignUpActivity.this, vipMowdel.getMessage(), Toast.LENGTH_SHORT).show();
+                                    loadingDialog.dismissDialog();
 
                                 }
 
@@ -89,7 +95,7 @@ public class SignUpActivity extends AppCompatActivity {
                         public void onFailure(Call<VipModel> call, Throwable t) {
 
                             Toast.makeText(SignUpActivity.this, "Error", Toast.LENGTH_SHORT).show();
-
+                            loadingDialog.dismissDialog();
                         }
                     });
 
