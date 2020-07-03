@@ -40,13 +40,13 @@
 
         <com.google.android.material.textfield.TextInputEditText
 
-            android:maxLength="16"
             android:id="@+id/userInputFieldID"
             android:layout_width="match_parent"
-            android:inputType="text"
-            android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890"
             android:layout_height="52dp"
-            android:maxLines="1"/>
+            android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890"
+            android:inputType="text"
+            android:maxLength="16"
+            android:maxLines="1" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -79,11 +79,11 @@
         <com.google.android.material.textfield.TextInputEditText
 
             android:id="@+id/passInputFieldID"
-            android:maxLength="32"
-            android:inputType="textPassword"
-            android:maxLines="1"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:maxLength="32"
+            android:maxLines="1" />
 
     </com.google.android.material.textfield.TextInputLayout>
 

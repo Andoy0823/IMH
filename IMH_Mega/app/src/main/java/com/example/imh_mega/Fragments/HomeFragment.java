@@ -12,14 +12,34 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.imh_mega.Fragments.Models.NewUpdtLocModel;
+import com.example.imh_mega.Fragments.Models.UpdtLocModel;
 import com.example.imh_mega.R;
+import com.example.imh_mega.Retrofit.APIInterface;
+import com.example.imh_mega.Retrofit.ApiClient;
+
+import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class HomeFragment extends Fragment {
 
     Button btnPlotToMaps, btnUpdateLoc;
     NavController navController;
+
+    @BindView(R.id.txtViewLongitudeID) TextView textViewLong;
+    @BindView(R.id.txtViewLatitudeID) TextView textViewLat;
+    @BindView(R.id.txtViewRiderIDID) TextView textViewRider;
+
+    APIInterface apiInterface;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -37,9 +57,14 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        ButterKnife.bind(this, view);
+
         navController = Navigation.findNavController(view);
         btnPlotToMaps = view.findViewById(R.id.btnPlotToMapsID);
         btnUpdateLoc = view.findViewById(R.id.btnUpdateLocID);
+
+        apiInterface = ApiClient.getAPIClient().create(APIInterface.class);
+
         btnPlotToMaps.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -51,10 +76,42 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
+                Call<List<UpdtLocModel>> listCall = apiInterface.getLowcation();
+
+                listCall.enqueue(new Callback<List<UpdtLocModel>>() {
+                    @Override
+                    public void onResponse(Call<List<UpdtLocModel>> call, Response<List<UpdtLocModel>> response) {
+
+                        if (!response.isSuccessful()){
+
+                            Toast.makeText(getActivity(), response.code(), Toast.LENGTH_SHORT).show();
+
+                        }
+
+                        List<UpdtLocModel> updtLocModelList = response.body();
+
+
+                        for (UpdtLocModel updtLocMowdel : updtLocModelList){
+
+                            textViewRider.setText(updtLocMowdel.getRiderID());
+                            textViewLat.setText(updtLocMowdel.getRtcLatitude());
+                            textViewLong.setText(updtLocMowdel.getRtcLongitude());
+
+                        }
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<UpdtLocModel>> call, Throwable t) {
+
+                        Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
+
+                    }
+                });
+
+
+
             }
         });
-
-
-
     }
 }

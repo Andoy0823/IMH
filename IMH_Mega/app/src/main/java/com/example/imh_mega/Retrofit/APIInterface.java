@@ -1,10 +1,15 @@
 package com.example.imh_mega.Retrofit;
 
+import com.example.imh_mega.Fragments.Models.NewUpdtLocModel;
+import com.example.imh_mega.Fragments.Models.UpdtLocModel;
 import com.example.imh_mega.Login.Models.VipModel;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
 
 public interface APIInterface {
@@ -24,5 +29,10 @@ public interface APIInterface {
                                 @Field("VipConfirmPassword") String vipConfirmPassword,
                                 @Field("VipPhone") String vipPhone,
                                 @Field("VipAddress") String vipAddress);
+
+
+    @GET("app_homeupdatelocation.php")
+    Call<List<UpdtLocModel>> getLowcation();
+
 
 }
