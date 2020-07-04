@@ -71,6 +71,7 @@ public class LoginActivity extends AppCompatActivity {
                                 Intent mainAct = new Intent(LoginActivity.this, MainActivity.class);
                                 startActivity(mainAct);
                                 loadingDialog.dismissDialog();
+                                finish();
 
                             }
 
@@ -99,7 +100,6 @@ public class LoginActivity extends AppCompatActivity {
 
                 Intent signUpintent = new Intent(LoginActivity.this, SignUpActivity.class);
                 startActivity(signUpintent);
-
             }
         });
     }

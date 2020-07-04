@@ -79,6 +79,7 @@ public class SignUpActivity extends AppCompatActivity {
                                     Intent loginAct = new Intent(SignUpActivity.this, LoginActivity.class);
                                     startActivity(loginAct);
                                     loadingDialog.dismissDialog();
+                                    finish();
 
                                 }
 
