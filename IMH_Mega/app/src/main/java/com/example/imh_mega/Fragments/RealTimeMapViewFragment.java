@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.example.imh_mega.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -33,6 +34,8 @@ public class RealTimeMapViewFragment extends Fragment implements OnMapReadyCallb
 
     NavController navController;
     Button btnBackToHome, btnRealTimeWaze;
+
+    String RTLatitude, RTLongitude;
 
 
     public RealTimeMapViewFragment() {
@@ -61,6 +64,12 @@ public class RealTimeMapViewFragment extends Fragment implements OnMapReadyCallb
         btnBackToHome = view.findViewById(R.id.btnBackToHomeID);
         btnRealTimeWaze = view.findViewById(R.id.btnRealTimeWazeID);
 
+        if (getArguments() != null){
+            RealTimeMapViewFragmentArgs args = RealTimeMapViewFragmentArgs.fromBundle(getArguments());
+            RTLatitude = args.getLatitude();
+            RTLongitude = args.getLongitude();
+        }
+
         btnBackToHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -71,9 +80,12 @@ public class RealTimeMapViewFragment extends Fragment implements OnMapReadyCallb
         btnRealTimeWaze.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String naviWaze = ("waze://?ll="+Latitude+","+Longitude+"&navigate=yes");
+
+                String naviWaze = ("waze://?ll="+RTLatitude+","+RTLongitude+"&navigate=yes");
                 Intent intentToWaze = new Intent(Intent.ACTION_VIEW, Uri.parse(naviWaze));
                 startActivity(intentToWaze);
+
+                //Toast.makeText(getActivity(), RTLatitude + ", " + RTLongitude , Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -82,8 +94,8 @@ public class RealTimeMapViewFragment extends Fragment implements OnMapReadyCallb
     public void onMapReady(GoogleMap googleMap) {
         mGoogleMap = googleMap;
         mGoogleMap.getUiSettings().setZoomControlsEnabled(true);
-        mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(Latitude, Longitude)));
-        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(Latitude, Longitude), 15));
+        mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(Double.parseDouble(RTLatitude), Double.parseDouble(RTLongitude))));
+        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(Double.parseDouble(RTLatitude), Double.parseDouble(RTLongitude)), 15));
     }
 
     @Override

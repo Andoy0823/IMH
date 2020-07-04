@@ -17,6 +17,8 @@ import android.widget.Toast;
 
 import com.example.imh_mega.Fragments.Models.NewUpdtLocModel;
 import com.example.imh_mega.Fragments.Models.UpdtLocModel;
+import com.example.imh_mega.LoadingDialog;
+import com.example.imh_mega.MainActivity;
 import com.example.imh_mega.R;
 import com.example.imh_mega.Retrofit.APIInterface;
 import com.example.imh_mega.Retrofit.ApiClient;
@@ -34,6 +36,9 @@ public class HomeFragment extends Fragment {
 
     Button btnPlotToMaps, btnUpdateLoc;
     NavController navController;
+    String Latitude, Longitude;
+
+    LoadingDialog loadingDialog;
 
     @BindView(R.id.txtViewLongitudeID) TextView textViewLong;
     @BindView(R.id.txtViewLatitudeID) TextView textViewLat;
@@ -65,10 +70,22 @@ public class HomeFragment extends Fragment {
 
         apiInterface = ApiClient.getAPIClient().create(APIInterface.class);
 
+        loadingDialog = new LoadingDialog(getActivity());
+
         btnPlotToMaps.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                navController.navigate(R.id.action_homeFragment_to_realTimeMapViewFragment);
+                //navController.navigate(R.id.action_homeFragment_to_realTimeMapViewFragment);
+                if (textViewLat.length() == 0 && textViewLong.length() == 0){
+                    Toast.makeText(getActivity(), "Please Update Location", Toast.LENGTH_SHORT).show();
+                }
+                else {
+
+                    HomeFragmentDirections.ActionHomeFragmentToRealTimeMapViewFragment action = HomeFragmentDirections.actionHomeFragmentToRealTimeMapViewFragment();
+                    action.setLatitude(Latitude);
+                    action.setLongitude(Longitude);
+                    navController.navigate(action);
+                }
             }
         });
 
@@ -76,6 +93,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
+                loadingDialog.startLoadingDialog();
                 Call<List<UpdtLocModel>> listCall = apiInterface.getLowcation();
 
                 listCall.enqueue(new Callback<List<UpdtLocModel>>() {
@@ -97,15 +115,19 @@ public class HomeFragment extends Fragment {
                             textViewLat.setText(updtLocMowdel.getRtcLatitude());
                             textViewLong.setText(updtLocMowdel.getRtcLongitude());
 
-                        }
+                            Latitude = updtLocMowdel.getRtcLatitude();
+                            Longitude = updtLocMowdel.getRtcLongitude();
 
+
+                        }
+                        loadingDialog.dismissDialog();
                     }
 
                     @Override
                     public void onFailure(Call<List<UpdtLocModel>> call, Throwable t) {
 
                         Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
-
+                        loadingDialog.dismissDialog();
                     }
                 });
 
