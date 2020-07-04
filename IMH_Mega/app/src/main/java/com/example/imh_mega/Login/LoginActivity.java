@@ -25,6 +25,7 @@ import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
 
+    //Same as hooks
     @BindView(R.id.userInputFieldID) TextInputEditText editUserLogin;
     @BindView(R.id.passInputFieldID) TextInputEditText editPassLogin;
 
