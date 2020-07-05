@@ -20,7 +20,6 @@ import android.widget.Toast;
 
 import com.example.imh_mega.Fragments.Models.autoCompleteModel;
 import com.example.imh_mega.Fragments.Models.searchRiderModel;
-import com.example.imh_mega.Fragments.Models.UpdtLocModel;
 import com.example.imh_mega.LoadingDialog;
 import com.example.imh_mega.MainActivity;
 import com.example.imh_mega.R;
@@ -126,7 +125,6 @@ public class HomeFragment extends Fragment {
 
         loadingDialog = new LoadingDialog(getActivity());
 
-
         btnPlotToMaps.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -140,6 +138,7 @@ public class HomeFragment extends Fragment {
                     action.setLatitude(Latitude);
                     action.setLongitude(Longitude);
                     navController.navigate(action);
+
                 }
             }
         });
@@ -152,8 +151,6 @@ public class HomeFragment extends Fragment {
                 Call<List<searchRiderModel>> updateLocationCall = apiInterface.getInformation();
 
                 loadingDialog.startLoadingDialog();
-                Call<List<UpdtLocModel>> listCall = apiInterface.getLowcation();
-
 
                 updateLocationCall.enqueue(new Callback<List<searchRiderModel>>() {
                     @Override
@@ -187,11 +184,10 @@ public class HomeFragment extends Fragment {
 
                                 }
 
+                                Latitude = updateRiderMowdel.getRtcLatitude();
+                                Longitude = updateRiderMowdel.getRtcLongitude();
+
                             }
-
-                            Latitude = updtLocMowdel.getRtcLatitude();
-                            Longitude = updtLocMowdel.getRtcLongitude();
-
 
                         }
                         loadingDialog.dismissDialog();
