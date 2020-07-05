@@ -1,7 +1,7 @@
 package com.example.imh_mega.Retrofit;
 
-import com.example.imh_mega.Fragments.Models.NewUpdtLocModel;
-import com.example.imh_mega.Fragments.Models.UpdtLocModel;
+import com.example.imh_mega.Fragments.Models.autoCompleteModel;
+import com.example.imh_mega.Fragments.Models.searchRiderModel;
 import com.example.imh_mega.Login.Models.VipModel;
 
 import java.util.List;
@@ -30,9 +30,10 @@ public interface APIInterface {
                                 @Field("VipPhone") String vipPhone,
                                 @Field("VipAddress") String vipAddress);
 
+    @GET("app_homeatcrider.php")
+    Call<List<autoCompleteModel>> getRiderNames();
 
-    @GET("app_homeupdatelocation.php")
-    Call<List<UpdtLocModel>> getLowcation();
-
+    @GET("app_homesearchrider.php")
+    Call<List<searchRiderModel>> getInformation();
 
 }

@@ -11,16 +11,20 @@ import androidx.navigation.Navigation;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.imh_mega.Fragments.Models.NewUpdtLocModel;
-import com.example.imh_mega.Fragments.Models.UpdtLocModel;
+import com.example.imh_mega.Fragments.Models.autoCompleteModel;
+import com.example.imh_mega.Fragments.Models.searchRiderModel;
 import com.example.imh_mega.R;
 import com.example.imh_mega.Retrofit.APIInterface;
 import com.example.imh_mega.Retrofit.ApiClient;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -35,16 +39,20 @@ public class HomeFragment extends Fragment {
     Button btnPlotToMaps, btnUpdateLoc;
     NavController navController;
 
+    ArrayList<String> riderNameList;
+
     @BindView(R.id.txtViewLongitudeID) TextView textViewLong;
     @BindView(R.id.txtViewLatitudeID) TextView textViewLat;
     @BindView(R.id.txtViewRiderIDID) TextView textViewRider;
+
+    @BindView(R.id.autoTxtRiderNameID) AutoCompleteTextView autoTextValue;
+    @BindView(R.id.imageButton) ImageButton searchRiderButton;
 
     APIInterface apiInterface;
 
     public HomeFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -65,6 +73,49 @@ public class HomeFragment extends Fragment {
 
         apiInterface = ApiClient.getAPIClient().create(APIInterface.class);
 
+        riderNameList = new ArrayList<>();
+
+        //AutoCompleteTextView
+
+        Call<List<autoCompleteModel>> atcNameListCall = apiInterface.getRiderNames();
+
+        atcNameListCall.enqueue(new Callback<List<autoCompleteModel>>() {
+            @Override
+            public void onResponse(Call<List<autoCompleteModel>> call, Response<List<autoCompleteModel>> response) {
+
+                if(!response.isSuccessful()){
+
+                    Toast.makeText(getActivity(), response.code(), Toast.LENGTH_SHORT).show();
+
+                }
+
+                List<autoCompleteModel> autoCompleteModelList = response.body();
+
+                for (autoCompleteModel completeModel : autoCompleteModelList){
+
+                    String riderName = "";
+
+                    riderName += completeModel.getRiderFullName();
+
+                    riderNameList.add(riderName);
+
+                }
+
+                ArrayAdapter<String> newAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, riderNameList);
+
+                autoTextValue.setAdapter(newAdapter);
+
+            }
+
+            @Override
+            public void onFailure(Call<List<autoCompleteModel>> call, Throwable t) {
+
+                Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+        //Buttons
         btnPlotToMaps.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -76,40 +127,108 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-                Call<List<UpdtLocModel>> listCall = apiInterface.getLowcation();
+                Call<List<searchRiderModel>> updateLocationCall = apiInterface.getInformation();
 
-                listCall.enqueue(new Callback<List<UpdtLocModel>>() {
+                updateLocationCall.enqueue(new Callback<List<searchRiderModel>>() {
                     @Override
-                    public void onResponse(Call<List<UpdtLocModel>> call, Response<List<UpdtLocModel>> response) {
+                    public void onResponse(Call<List<searchRiderModel>> call, Response<List<searchRiderModel>> response) {
 
-                        if (!response.isSuccessful()){
+                        if(!response.isSuccessful()){
 
                             Toast.makeText(getActivity(), response.code(), Toast.LENGTH_SHORT).show();
 
                         }
 
-                        List<UpdtLocModel> updtLocModelList = response.body();
+                        String errorCheckValue = autoTextValue.getText().toString().trim();
 
+                        if (errorCheckValue.equals("")){
 
-                        for (UpdtLocModel updtLocMowdel : updtLocModelList){
+                            Toast.makeText(getActivity(), "No value detected", Toast.LENGTH_SHORT).show();
 
-                            textViewRider.setText(updtLocMowdel.getRiderID());
-                            textViewLat.setText(updtLocMowdel.getRtcLatitude());
-                            textViewLong.setText(updtLocMowdel.getRtcLongitude());
+                        }
+
+                        else {
+
+                            List<searchRiderModel> updateModelList = response.body();
+
+                            for (searchRiderModel updateRiderMowdel : updateModelList){
+
+                                if (updateRiderMowdel.getRiderFullName().equals(errorCheckValue)){
+
+                                    textViewRider.setText(updateRiderMowdel.getRiderID());
+                                    textViewLat.setText(updateRiderMowdel.getRtcLatitude());
+                                    textViewLong.setText(updateRiderMowdel.getRtcLongitude());
+
+                                }
+
+                            }
 
                         }
 
                     }
 
                     @Override
-                    public void onFailure(Call<List<UpdtLocModel>> call, Throwable t) {
+                    public void onFailure(Call<List<searchRiderModel>> call, Throwable t) {
 
                         Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
 
                     }
                 });
 
+            }
+        });
 
+        searchRiderButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Call<List<searchRiderModel>> riderInformationCall = apiInterface.getInformation();
+
+                riderInformationCall.enqueue(new Callback<List<searchRiderModel>>() {
+                    @Override
+                    public void onResponse(Call<List<searchRiderModel>> call, Response<List<searchRiderModel>> response) {
+
+                        if(!response.isSuccessful()){
+
+                            Toast.makeText(getActivity(), response.code(), Toast.LENGTH_SHORT).show();
+
+                        }
+
+                        List<searchRiderModel> riderModelList = response.body();
+
+                        String textViewValue = autoTextValue.getText().toString().trim();
+
+                        if (textViewValue.equals("")){
+
+                            Toast.makeText(getActivity(), "No value detected", Toast.LENGTH_SHORT).show();
+
+                        }
+
+                        else{
+
+                            for (searchRiderModel searchRiderMowdel : riderModelList){
+
+                                if (searchRiderMowdel.getRiderFullName().equals(textViewValue)){
+
+                                    textViewRider.setText(searchRiderMowdel.getRiderID());
+                                    textViewLat.setText(searchRiderMowdel.getRtcLatitude());
+                                    textViewLong.setText(searchRiderMowdel.getRtcLongitude());
+
+                                }
+
+                            }
+
+                        }
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<searchRiderModel>> call, Throwable t) {
+
+                        Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
+
+                    }
+                });
 
             }
         });
