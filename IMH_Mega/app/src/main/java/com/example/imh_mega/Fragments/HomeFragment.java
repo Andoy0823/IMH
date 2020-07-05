@@ -136,8 +136,10 @@ public class HomeFragment extends Fragment {
                 else {
 
                     HomeFragmentDirections.ActionHomeFragmentToRealTimeMapViewFragment action = HomeFragmentDirections.actionHomeFragmentToRealTimeMapViewFragment();
-                    action.setLatitude(Latitude);
-                    action.setLongitude(Longitude);
+                    //action.setLatitude(Latitude);
+                    //action.setLongitude(Longitude);
+                    action.setLatitude(textViewLat.getText().toString().trim());
+                    action.setLongitude(textViewLong.getText().toString().trim());
                     navController.navigate(action);
 
                 }
