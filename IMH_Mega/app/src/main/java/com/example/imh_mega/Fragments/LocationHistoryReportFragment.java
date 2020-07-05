@@ -15,6 +15,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.example.imh_mega.R;
 
@@ -24,6 +25,7 @@ public class LocationHistoryReportFragment extends Fragment {
     NavController navController;
     Spinner spinnerLocReportType;
     Button btnPlotReport;
+    TextView txtViewLocHistLat, txtViewLocHistLong;
 
     public LocationHistoryReportFragment() {
         // Required empty public constructor
@@ -41,9 +43,17 @@ public class LocationHistoryReportFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        //Hooks
         navController = Navigation.findNavController(view);
         spinnerLocReportType = view.findViewById(R.id.spinnerLocReportTypeID);
         btnPlotReport = view.findViewById(R.id.btnPlotHistoryLocID);
+        txtViewLocHistLat = view.findViewById(R.id.txtViewLocHistLatID);
+        txtViewLocHistLong = view.findViewById(R.id.txtViewLocHistLongID);
+
+        //Experimental Values. Delete later
+        txtViewLocHistLat.setText("14.350099");
+        txtViewLocHistLong.setText("120.944006");
+
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(), R.array.reportTypes, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerLocReportType.setAdapter(adapter);
@@ -66,7 +76,15 @@ public class LocationHistoryReportFragment extends Fragment {
         btnPlotReport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                navController.navigate(R.id.action_locationHistoryReportFragment_to_reportMapViewFragment);
+                //navController.navigate(R.id.action_locationHistoryReportFragment_to_reportMapViewFragment);
+                LocationHistoryReportFragmentDirections.ActionLocationHistoryReportFragmentToReportMapViewFragment action
+                        = LocationHistoryReportFragmentDirections.actionLocationHistoryReportFragmentToReportMapViewFragment();
+
+                action.setLatitude(txtViewLocHistLat.getText().toString().trim());
+                action.setLongitude(txtViewLocHistLong.getText().toString().trim());
+
+                navController.navigate(action);
+
             }
         });
 

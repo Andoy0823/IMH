@@ -35,7 +35,7 @@
             app:layout_constraintTop_toBottomOf="@+id/spinnerDateIncidentID" />
 
         <TextView
-            android:id="@+id/textView18"
+            android:id="@+id/txtViewLocHistLatID"
             android:layout_width="280dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="120dp"
@@ -47,7 +47,7 @@
             app:layout_constraintTop_toBottomOf="@+id/spinnerDateIncidentID" />
 
         <TextView
-            android:id="@+id/textView17"
+            android:id="@+id/txtViewLocHistLongID"
             android:layout_width="280dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="120dp"
@@ -160,7 +160,7 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView17" />
+            app:layout_constraintTop_toBottomOf="@+id/txtViewLocHistLongID" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.example.imh_mega.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -31,6 +32,8 @@ public class ReportMapViewFragment extends Fragment implements OnMapReadyCallbac
 
     NavController navController;
     Button btnBackToReport;
+
+    String locHistLat, locHistLong;
 
     public ReportMapViewFragment() {
         // Required empty public constructor
@@ -57,6 +60,12 @@ public class ReportMapViewFragment extends Fragment implements OnMapReadyCallbac
         btnBackToReport = view.findViewById(R.id.btnBackToReportID);
         navController = Navigation.findNavController(view);
 
+        if (getArguments() != null){
+            ReportMapViewFragmentArgs args = ReportMapViewFragmentArgs.fromBundle(getArguments());
+            locHistLat = args.getLatitude();
+            locHistLong = args.getLongitude();
+        }
+
         btnBackToReport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -70,8 +79,8 @@ public class ReportMapViewFragment extends Fragment implements OnMapReadyCallbac
 
         mGoogleMap = googleMap;
         mGoogleMap.getUiSettings().setZoomControlsEnabled(true);
-        mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(Latitude, Longitude)));
-        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(Latitude, Longitude), 15));
+        mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(Double.parseDouble(locHistLat), Double.parseDouble(locHistLong))));
+        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(Double.parseDouble(locHistLat), Double.parseDouble(locHistLong)), 15));
 
     }
 

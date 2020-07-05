@@ -25,6 +25,7 @@ import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
 
+    //Same as hooks
     @BindView(R.id.userInputFieldID) TextInputEditText editUserLogin;
     @BindView(R.id.passInputFieldID) TextInputEditText editPassLogin;
 
@@ -71,6 +72,7 @@ public class LoginActivity extends AppCompatActivity {
                                 Intent mainAct = new Intent(LoginActivity.this, MainActivity.class);
                                 startActivity(mainAct);
                                 loadingDialog.dismissDialog();
+                                finish();
 
                             }
 
@@ -99,7 +101,6 @@ public class LoginActivity extends AppCompatActivity {
 
                 Intent signUpintent = new Intent(LoginActivity.this, SignUpActivity.class);
                 startActivity(signUpintent);
-
             }
         });
     }
