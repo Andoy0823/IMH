@@ -1,5 +1,7 @@
 package com.example.imh_mega.Fragments;
 
+import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -11,6 +13,8 @@ import androidx.navigation.Navigation;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -85,7 +89,7 @@ public class HomeFragment extends Fragment {
 
         Call<List<autoCompleteModel>> atcNameListCall = apiInterface.getRiderNames();
 
-        //comment
+
         atcNameListCall.enqueue(new Callback<List<autoCompleteModel>>() {
             @Override
             public void onResponse(Call<List<autoCompleteModel>> call, Response<List<autoCompleteModel>> response) {
@@ -111,6 +115,7 @@ public class HomeFragment extends Fragment {
                 ArrayAdapter<String> newAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, riderNameList);
 
                 autoTextValue.setAdapter(newAdapter);
+
 
             }
 
@@ -210,7 +215,7 @@ public class HomeFragment extends Fragment {
         searchRiderButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                hideSoftKeyboard(getActivity());
                 Call<List<searchRiderModel>> riderInformationCall = apiInterface.getInformation();
 
                 riderInformationCall.enqueue(new Callback<List<searchRiderModel>>() {
@@ -262,4 +267,13 @@ public class HomeFragment extends Fragment {
             }
         });
     }
+
+    public void hideSoftKeyboard(Activity activity){
+        if (activity.getCurrentFocus() == null){
+            return;
+        }
+        InputMethodManager inputMethodManager = (InputMethodManager)activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
+    }
+
 }
