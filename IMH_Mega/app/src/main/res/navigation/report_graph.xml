@@ -33,5 +33,13 @@
         <action
             android:id="@+id/action_reportMapViewFragment_to_locationHistoryReportFragment"
             app:destination="@id/locationHistoryReportFragment" />
+        <argument
+            android:name="Latitude"
+            app:argType="string"
+            android:defaultValue="default" />
+        <argument
+            android:name="Longitude"
+            app:argType="string"
+            android:defaultValue="default" />
     </fragment>
 </navigation>
