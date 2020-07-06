@@ -34,6 +34,7 @@ public class ReportMapViewFragment extends Fragment implements OnMapReadyCallbac
     Button btnBackToReport;
 
     String locHistLat, locHistLong;
+    int backFragment;
 
     public ReportMapViewFragment() {
         // Required empty public constructor
@@ -64,12 +65,19 @@ public class ReportMapViewFragment extends Fragment implements OnMapReadyCallbac
             ReportMapViewFragmentArgs args = ReportMapViewFragmentArgs.fromBundle(getArguments());
             locHistLat = args.getLatitude();
             locHistLong = args.getLongitude();
+            backFragment = args.getFragmentBackStack();
         }
 
         btnBackToReport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                navController.navigate(R.id.action_reportMapViewFragment_to_locationHistoryReportFragment);
+                //navController.navigate(R.id.action_reportMapViewFragment_to_locationHistoryReportFragment);
+                if (backFragment == 1){
+                    navController.navigate(R.id.action_reportMapViewFragment_to_incidentReportFragment);
+                }
+                else {
+                    navController.navigate(R.id.action_reportMapViewFragment_to_locationHistoryReportFragment);
+                }
             }
         });
     }
