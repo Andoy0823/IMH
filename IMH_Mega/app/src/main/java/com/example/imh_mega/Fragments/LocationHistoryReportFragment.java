@@ -127,9 +127,20 @@ public class LocationHistoryReportFragment extends Fragment {
 
                     counter++;
 
-                    String historyCheck = "Last " + counter + " location/s";
+                    if (counter == 1){
 
-                    lastNhistory.add(historyCheck);
+                        String historyCheck = "Last " + counter + " location";
+                        lastNhistory.add(historyCheck);
+
+                    }
+
+                    else {
+
+                        String historyCheck = "Last " + counter + " locations";
+
+                        lastNhistory.add(historyCheck);
+
+                    }
 
                 }
 
