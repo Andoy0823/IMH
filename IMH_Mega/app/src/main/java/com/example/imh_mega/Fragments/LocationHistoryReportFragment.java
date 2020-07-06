@@ -65,6 +65,9 @@ public class LocationHistoryReportFragment extends Fragment {
                 if (text.equals("Incident Report")){
                     navController.navigate(R.id.action_locationHistoryReportFragment_to_incidentReportFragment);
                 }
+                else if (text.equals("Hospital Locations Report")){
+                    navController.navigate(R.id.action_locationHistoryReportFragment_to_hospitalLocationReportFragment);
+                }
             }
 
             @Override
@@ -83,11 +86,14 @@ public class LocationHistoryReportFragment extends Fragment {
                 action.setLatitude(txtViewLocHistLat.getText().toString().trim());
                 action.setLongitude(txtViewLocHistLong.getText().toString().trim());
                 action.setFragmentBackStack(2);
+                action.setPlotAllHospital(false);
 
                 navController.navigate(action);
 
             }
         });
+
+
 
 
     }

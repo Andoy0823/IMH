@@ -15,6 +15,9 @@
         <action
             android:id="@+id/action_incidentReportFragment_to_reportMapViewFragment"
             app:destination="@id/reportMapViewFragment" />
+        <action
+            android:id="@+id/action_incidentReportFragment_to_hospitalLocationReportFragment"
+            app:destination="@id/hospitalLocationReportFragment" />
     </fragment>
     <fragment
         android:id="@+id/locationHistoryReportFragment"
@@ -27,6 +30,9 @@
         <action
             android:id="@+id/action_locationHistoryReportFragment_to_reportMapViewFragment"
             app:destination="@id/reportMapViewFragment" />
+        <action
+            android:id="@+id/action_locationHistoryReportFragment_to_hospitalLocationReportFragment"
+            app:destination="@id/hospitalLocationReportFragment" />
     </fragment>
     <fragment
         android:id="@+id/reportMapViewFragment"
@@ -51,5 +57,27 @@
             android:name="FragmentBackStack"
             app:argType="integer"
             android:defaultValue="0" />
+        <action
+            android:id="@+id/action_reportMapViewFragment_to_hospitalLocationReportFragment"
+            app:destination="@id/hospitalLocationReportFragment" />
+        <argument
+            android:name="PlotAllHospital"
+            app:argType="boolean"
+            android:defaultValue="false" />
+    </fragment>
+    <fragment
+        android:id="@+id/hospitalLocationReportFragment"
+        android:name="com.example.imh_mega.Fragments.HospitalLocationReportFragment"
+        android:label="fragment_hospital_location_report"
+        tools:layout="@layout/fragment_hospital_location_report" >
+        <action
+            android:id="@+id/action_hospitalLocationReportFragment_to_incidentReportFragment"
+            app:destination="@id/incidentReportFragment" />
+        <action
+            android:id="@+id/action_hospitalLocationReportFragment_to_locationHistoryReportFragment"
+            app:destination="@id/locationHistoryReportFragment" />
+        <action
+            android:id="@+id/action_hospitalLocationReportFragment_to_reportMapViewFragment"
+            app:destination="@id/reportMapViewFragment" />
     </fragment>
 </navigation>
