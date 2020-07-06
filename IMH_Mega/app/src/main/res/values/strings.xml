@@ -9,6 +9,18 @@
         <item>Choose A Report: </item>
         <item>Incident Report</item>
         <item>Location History Report</item>
+        <item>Hospital Locations Report</item>
 
+    </string-array>
+
+    <string-array name="hospitals">
+        <item>Medical Center Imus</item>
+        <item>City of Imus Doctors Hospital</item>
+        <item>Medicard Cavite Clinic</item>
+        <item>Metrosouth Medical Center</item>
+        <item>San Agustin Medical Clinic</item>
+        <item>Southeast Asian Medical Center</item>
+        <item>Molino Doctors Hospital</item>
+        <item>Las Pinas City Medical Center</item>
     </string-array>
 </resources>

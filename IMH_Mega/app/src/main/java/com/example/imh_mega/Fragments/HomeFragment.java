@@ -1,5 +1,7 @@
 package com.example.imh_mega.Fragments;
 
+import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -11,6 +13,7 @@ import androidx.navigation.Navigation;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -210,6 +213,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
+                hideSoftKeyboard(getActivity());
                 Call<List<searchRiderModel>> riderInformationCall = apiInterface.getInformation();
 
                 riderInformationCall.enqueue(new Callback<List<searchRiderModel>>() {
@@ -262,5 +266,14 @@ public class HomeFragment extends Fragment {
         });
 
     }
+
+    public void hideSoftKeyboard(Activity activity){
+        if (activity.getCurrentFocus() == null){
+            return;
+        }
+        InputMethodManager inputMethodManager = (InputMethodManager)activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
+    }
+
 
 }

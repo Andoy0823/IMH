@@ -28,6 +28,10 @@ public class ReportMapViewFragment extends Fragment implements OnMapReadyCallbac
     MapView mapView;
     double Latitude = 14.444444;
     double Longitude = 120.888888;
+    double allHospitalLat[] = {14.426269, 14.399959, 14.376212, 14.373747, 14.395625, 14.405804, 14.410574, 14.429737};
+    double allHospitalLong[] = {120.946531, 120.939514, 120.938735, 120.979819, 120.987978, 120.976867, 120.976085, 121.003543};
+    String hospitalName[] = {"Medical Center Imus","City of Imus Doctors Hospital", "Medicard Cavite Clinic", "Metrosouth Medical Center", "San Agustin Medical Clinic", "Southeast Asian Medical Center",
+    "Molino Doctors Hospital", "Las Pinas City Medical Center"};
     GoogleMap mGoogleMap;
 
     NavController navController;
@@ -35,6 +39,7 @@ public class ReportMapViewFragment extends Fragment implements OnMapReadyCallbac
 
     String locHistLat, locHistLong;
     int backFragment;
+    Boolean plotAll=false;
 
     public ReportMapViewFragment() {
         // Required empty public constructor
@@ -66,6 +71,7 @@ public class ReportMapViewFragment extends Fragment implements OnMapReadyCallbac
             locHistLat = args.getLatitude();
             locHistLong = args.getLongitude();
             backFragment = args.getFragmentBackStack();
+            plotAll = args.getPlotAllHospital();
         }
 
         btnBackToReport.setOnClickListener(new View.OnClickListener() {
@@ -75,8 +81,11 @@ public class ReportMapViewFragment extends Fragment implements OnMapReadyCallbac
                 if (backFragment == 1){
                     navController.navigate(R.id.action_reportMapViewFragment_to_incidentReportFragment);
                 }
-                else {
+                else if (backFragment == 2){
                     navController.navigate(R.id.action_reportMapViewFragment_to_locationHistoryReportFragment);
+                }
+                else {
+                    navController.navigate(R.id.action_reportMapViewFragment_to_hospitalLocationReportFragment);
                 }
             }
         });
@@ -87,9 +96,18 @@ public class ReportMapViewFragment extends Fragment implements OnMapReadyCallbac
 
         mGoogleMap = googleMap;
         mGoogleMap.getUiSettings().setZoomControlsEnabled(true);
-        mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(Double.parseDouble(locHistLat), Double.parseDouble(locHistLong))));
-        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(Double.parseDouble(locHistLat), Double.parseDouble(locHistLong)), 15));
-
+        if (!plotAll){
+            mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(Double.parseDouble(locHistLat), Double.parseDouble(locHistLong))).title("This be a title!"));
+            mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(Double.parseDouble(locHistLat), Double.parseDouble(locHistLong)), 15));
+        }
+        else {
+            for (int i = 0; i<allHospitalLat.length; i++){
+                mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(allHospitalLat[i], allHospitalLong[i])).title(hospitalName[i]));
+                mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(14.405804, 120.976867), 12));
+            }
+        }
+        //mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(Double.parseDouble(locHistLat), Double.parseDouble(locHistLong))).title("This be a title!"));
+        //mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(Double.parseDouble(locHistLat), Double.parseDouble(locHistLong)), 15));
         //mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(Latitude, Longitude)));
 
     }
