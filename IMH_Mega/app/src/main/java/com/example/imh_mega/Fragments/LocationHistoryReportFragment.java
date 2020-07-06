@@ -16,11 +16,21 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.imh_mega.Fragments.Models.LocationHistorySpinnerModel;
 import com.example.imh_mega.R;
+import com.example.imh_mega.Retrofit.APIInterface;
+import com.example.imh_mega.Retrofit.ApiClient;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class LocationHistoryReportFragment extends Fragment {
@@ -31,6 +41,13 @@ public class LocationHistoryReportFragment extends Fragment {
     TextView txtViewLocHistLat, txtViewLocHistLong;
 
     @BindView(R.id.spinnerLastLocID) Spinner spinLastLoc;
+
+    APIInterface apiInterface;
+
+    ArrayList<String> lastNhistory;
+
+    Integer counter = 0;
+
 
     public LocationHistoryReportFragment() {
         // Required empty public constructor
@@ -57,6 +74,13 @@ public class LocationHistoryReportFragment extends Fragment {
         txtViewLocHistLat = view.findViewById(R.id.txtViewLocHistLatID);
         txtViewLocHistLong = view.findViewById(R.id.txtViewLocHistLongID);
 
+        //Array
+
+        lastNhistory = new ArrayList<>();
+
+        //Api
+        apiInterface = ApiClient.getAPIClient().create(APIInterface.class);
+
         //Experimental Values. Delete later
         txtViewLocHistLat.setText("14.350099");
         txtViewLocHistLong.setText("120.944006");
@@ -76,6 +100,47 @@ public class LocationHistoryReportFragment extends Fragment {
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+        //Location History Spinner
+
+        Call<List<LocationHistorySpinnerModel>> historyRepowrt = apiInterface.getHistowry();
+
+        historyRepowrt.enqueue(new Callback<List<LocationHistorySpinnerModel>>() {
+            @Override
+            public void onResponse(Call<List<LocationHistorySpinnerModel>> call, Response<List<LocationHistorySpinnerModel>> response) {
+
+                if (!response.isSuccessful()){
+
+                    Toast.makeText(getActivity(), response.code(), Toast.LENGTH_SHORT).show();
+
+                }
+
+                List<LocationHistorySpinnerModel> spinnerModelList = response.body();
+
+                for (LocationHistorySpinnerModel spinnerMowdel : spinnerModelList){
+
+                    counter++;
+
+                    String historyCheck = "Last " + counter + " location/s";
+
+                    lastNhistory.add(historyCheck);
+
+                }
+
+                ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(getActivity(),android.R.layout.simple_spinner_item, lastNhistory);
+
+                spinLastLoc.setAdapter(spinnerAdapter);
+
+
+            }
+
+            @Override
+            public void onFailure(Call<List<LocationHistorySpinnerModel>> call, Throwable t) {
+
+
 
             }
         });
