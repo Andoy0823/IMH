@@ -85,7 +85,6 @@ public class HomeFragment extends Fragment {
 
         Call<List<autoCompleteModel>> atcNameListCall = apiInterface.getRiderNames();
 
-        //comment
         atcNameListCall.enqueue(new Callback<List<autoCompleteModel>>() {
             @Override
             public void onResponse(Call<List<autoCompleteModel>> call, Response<List<autoCompleteModel>> response) {

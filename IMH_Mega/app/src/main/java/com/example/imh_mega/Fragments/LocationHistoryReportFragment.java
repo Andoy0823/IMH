@@ -89,6 +89,7 @@ public class LocationHistoryReportFragment extends Fragment {
 
                 action.setLatitude(txtViewLocHistLat.getText().toString().trim());
                 action.setLongitude(txtViewLocHistLong.getText().toString().trim());
+                action.setFragmentBackStack(2);
 
                 navController.navigate(action);
 

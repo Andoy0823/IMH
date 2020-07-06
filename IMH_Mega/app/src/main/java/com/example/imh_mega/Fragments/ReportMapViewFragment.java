@@ -26,14 +26,15 @@ import com.google.android.gms.maps.model.MarkerOptions;
 public class ReportMapViewFragment extends Fragment implements OnMapReadyCallback {
 
     MapView mapView;
-    double Latitude = 14.350099;
-    double Longitude = 120.944006;
+    double Latitude = 14.444444;
+    double Longitude = 120.888888;
     GoogleMap mGoogleMap;
 
     NavController navController;
     Button btnBackToReport;
 
     String locHistLat, locHistLong;
+    int backFragment;
 
     public ReportMapViewFragment() {
         // Required empty public constructor
@@ -64,12 +65,19 @@ public class ReportMapViewFragment extends Fragment implements OnMapReadyCallbac
             ReportMapViewFragmentArgs args = ReportMapViewFragmentArgs.fromBundle(getArguments());
             locHistLat = args.getLatitude();
             locHistLong = args.getLongitude();
+            backFragment = args.getFragmentBackStack();
         }
 
         btnBackToReport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                navController.navigate(R.id.action_reportMapViewFragment_to_locationHistoryReportFragment);
+                //navController.navigate(R.id.action_reportMapViewFragment_to_locationHistoryReportFragment);
+                if (backFragment == 1){
+                    navController.navigate(R.id.action_reportMapViewFragment_to_incidentReportFragment);
+                }
+                else {
+                    navController.navigate(R.id.action_reportMapViewFragment_to_locationHistoryReportFragment);
+                }
             }
         });
     }
@@ -81,6 +89,8 @@ public class ReportMapViewFragment extends Fragment implements OnMapReadyCallbac
         mGoogleMap.getUiSettings().setZoomControlsEnabled(true);
         mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(Double.parseDouble(locHistLat), Double.parseDouble(locHistLong))));
         mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(Double.parseDouble(locHistLat), Double.parseDouble(locHistLong)), 15));
+
+        //mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(Latitude, Longitude)));
 
     }
 

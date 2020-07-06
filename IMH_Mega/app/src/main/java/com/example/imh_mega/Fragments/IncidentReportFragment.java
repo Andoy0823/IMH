@@ -15,6 +15,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.imh_mega.R;
@@ -24,6 +25,8 @@ public class IncidentReportFragment extends Fragment{
 
     NavController navController;
     Spinner spinnerReportType;
+    Button btnPlotIncident;
+    TextView txtViewIncidentLat, txtViewIncidentLong, txtViewHospitalLoc, txtViewPoliceLoc;
 
     public IncidentReportFragment() {
         // Required empty public constructor
@@ -40,8 +43,18 @@ public class IncidentReportFragment extends Fragment{
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-
+        //Hooks
+        btnPlotIncident = view.findViewById(R.id.btnPlotIncidentLocID);
+        txtViewIncidentLat = view.findViewById(R.id.txtViewIncidentLatID);
+        txtViewIncidentLong = view.findViewById(R.id.txtViewIncidentLongID);
+        txtViewHospitalLoc = view.findViewById(R.id.txtViewIncidentHospitalID);
+        txtViewPoliceLoc = view.findViewById(R.id.txtViewIncidentPoliceID);
         spinnerReportType = view.findViewById(R.id.spinnerReportTypeID);
+
+        //Experimental Value (Delete Later)
+        txtViewIncidentLat.setText("14.400995");
+        txtViewIncidentLong.setText("120.965846");
+
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(), R.array.reportTypes, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerReportType.setAdapter(adapter);
@@ -58,6 +71,19 @@ public class IncidentReportFragment extends Fragment{
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
 
+            }
+        });
+
+        btnPlotIncident.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                IncidentReportFragmentDirections.ActionIncidentReportFragmentToReportMapViewFragment action = IncidentReportFragmentDirections.actionIncidentReportFragmentToReportMapViewFragment();
+
+                action.setLatitude(txtViewIncidentLat.getText().toString().trim());
+                action.setLongitude(txtViewIncidentLong.getText().toString().trim());
+                action.setFragmentBackStack(1);
+
+                navController.navigate(action);
             }
         });
 

@@ -12,6 +12,9 @@
         <action
             android:id="@+id/action_incidentReportFragment_to_locationHistoryReportFragment"
             app:destination="@id/locationHistoryReportFragment" />
+        <action
+            android:id="@+id/action_incidentReportFragment_to_reportMapViewFragment"
+            app:destination="@id/reportMapViewFragment" />
     </fragment>
     <fragment
         android:id="@+id/locationHistoryReportFragment"
@@ -41,5 +44,12 @@
             android:name="Longitude"
             app:argType="string"
             android:defaultValue="default" />
+        <action
+            android:id="@+id/action_reportMapViewFragment_to_incidentReportFragment"
+            app:destination="@id/incidentReportFragment" />
+        <argument
+            android:name="FragmentBackStack"
+            app:argType="integer"
+            android:defaultValue="0" />
     </fragment>
 </navigation>
