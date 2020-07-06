@@ -20,7 +20,7 @@
             android:textSize="19sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/spinnerDateIncidentID" />
+            app:layout_constraintTop_toBottomOf="@+id/spinnerLastLocID" />
 
         <TextView
             android:id="@+id/textView19"
@@ -32,7 +32,7 @@
             android:textSize="19sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/spinnerDateIncidentID" />
+            app:layout_constraintTop_toBottomOf="@+id/spinnerLastLocID" />
 
         <TextView
             android:id="@+id/txtViewLocHistLatID"
@@ -44,7 +44,7 @@
             android:textSize="19sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/spinnerDateIncidentID" />
+            app:layout_constraintTop_toBottomOf="@+id/spinnerLastLocID" />
 
         <TextView
             android:id="@+id/txtViewLocHistLongID"
@@ -56,7 +56,7 @@
             android:textSize="19sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/spinnerDateIncidentID" />
+            app:layout_constraintTop_toBottomOf="@+id/spinnerLastLocID" />
 
         <TextView
             android:id="@+id/textView13"
@@ -68,7 +68,7 @@
             android:textSize="19sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/spinnerDateIncidentID" />
+            app:layout_constraintTop_toBottomOf="@+id/spinnerLastLocID" />
 
         <TextView
             android:id="@+id/textView12"
@@ -80,7 +80,7 @@
             android:textSize="19sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/spinnerDateIncidentID" />
+            app:layout_constraintTop_toBottomOf="@+id/spinnerLastLocID" />
 
         <TextView
             android:id="@+id/textView11"
@@ -92,10 +92,10 @@
             android:textSize="19sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/spinnerDateIncidentID" />
+            app:layout_constraintTop_toBottomOf="@+id/spinnerLastLocID" />
 
         <Spinner
-            android:id="@+id/spinnerDateIncidentID"
+            android:id="@+id/spinnerLastLocID"
             android:layout_width="336dp"
             android:layout_height="41dp"
             android:layout_marginTop="32dp"
@@ -149,7 +149,7 @@
             android:textStyle="bold"
             android:textSize="19sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/spinnerDateIncidentID" />
+            app:layout_constraintTop_toBottomOf="@+id/spinnerLastLocID" />
 
         <Button
             android:id="@+id/btnPlotHistoryLocID"

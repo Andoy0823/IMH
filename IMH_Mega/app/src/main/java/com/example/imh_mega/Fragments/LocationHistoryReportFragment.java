@@ -19,6 +19,9 @@ import android.widget.TextView;
 
 import com.example.imh_mega.R;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 
 public class LocationHistoryReportFragment extends Fragment {
 
@@ -26,6 +29,8 @@ public class LocationHistoryReportFragment extends Fragment {
     Spinner spinnerLocReportType;
     Button btnPlotReport;
     TextView txtViewLocHistLat, txtViewLocHistLong;
+
+    @BindView(R.id.spinnerLastLocID) Spinner spinLastLoc;
 
     public LocationHistoryReportFragment() {
         // Required empty public constructor
@@ -42,6 +47,8 @@ public class LocationHistoryReportFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        ButterKnife.bind(this, view);
 
         //Hooks
         navController = Navigation.findNavController(view);
@@ -92,9 +99,6 @@ public class LocationHistoryReportFragment extends Fragment {
 
             }
         });
-
-
-
 
     }
 }
