@@ -40,13 +40,18 @@ public class LocationHistoryReportFragment extends Fragment {
     Button btnPlotReport;
     TextView txtViewLocHistLat, txtViewLocHistLong;
 
+    @BindView(R.id.textViewTimeID) TextView txtViewTime;
+    @BindView(R.id.textViewDateID) TextView txtViewDate;
+
     @BindView(R.id.spinnerLastLocID) Spinner spinLastLoc;
+
+    @BindView(R.id.btnLocationHistoryUpdateID) Button historyUpdateButton;
 
     APIInterface apiInterface;
 
     ArrayList<String> lastNhistory;
 
-    Integer counter = 0;
+    Integer counter = 0, getPosition, tempValue, powsitionCheck;
 
 
     public LocationHistoryReportFragment() {
@@ -81,10 +86,6 @@ public class LocationHistoryReportFragment extends Fragment {
         //Api
         apiInterface = ApiClient.getAPIClient().create(APIInterface.class);
 
-        //Experimental Values. Delete later
-        txtViewLocHistLat.setText("14.350099");
-        txtViewLocHistLong.setText("120.944006");
-
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(), R.array.reportTypes, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerLocReportType.setAdapter(adapter);
@@ -109,9 +110,9 @@ public class LocationHistoryReportFragment extends Fragment {
 
         //Location History Spinner
 
-        Call<List<LocationHistorySpinnerModel>> historyRepowrt = apiInterface.getHistowry();
+        Call<List<LocationHistorySpinnerModel>> historyRepowrtspinner = apiInterface.getHistowry();
 
-        historyRepowrt.enqueue(new Callback<List<LocationHistorySpinnerModel>>() {
+        historyRepowrtspinner.enqueue(new Callback<List<LocationHistorySpinnerModel>>() {
             @Override
             public void onResponse(Call<List<LocationHistorySpinnerModel>> call, Response<List<LocationHistorySpinnerModel>> response) {
 
@@ -127,7 +128,7 @@ public class LocationHistoryReportFragment extends Fragment {
 
                     counter++;
 
-                    if (counter == 1){
+                    if (counter.equals(1)){
 
                         String historyCheck = "Last " + counter + " location";
                         lastNhistory.add(historyCheck);
@@ -139,6 +140,8 @@ public class LocationHistoryReportFragment extends Fragment {
                         String historyCheck = "Last " + counter + " locations";
 
                         lastNhistory.add(historyCheck);
+
+
 
                     }
 
@@ -154,7 +157,18 @@ public class LocationHistoryReportFragment extends Fragment {
             @Override
             public void onFailure(Call<List<LocationHistorySpinnerModel>> call, Throwable t) {
 
+                Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
 
+            }
+        });
+
+        //Location History Report
+
+        historyUpdateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                //Help
 
             }
         });
@@ -177,4 +191,24 @@ public class LocationHistoryReportFragment extends Fragment {
         });
 
     }
+
+    public static String extractNumber(final String str) {
+
+        if(str == null || str.isEmpty()) return "";
+
+        StringBuilder sb = new StringBuilder();
+        boolean found = false;
+        for(char c : str.toCharArray()){
+            if(Character.isDigit(c)){
+                sb.append(c);
+                found = true;
+            } else if(found){
+                // If we already found a digit before and this char is not a digit, stop looping
+                break;
+            }
+        }
+
+        return sb.toString();
+    }
+
 }

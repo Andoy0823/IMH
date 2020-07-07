@@ -11,7 +11,7 @@
         android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/textView20"
+            android:id="@+id/textViewTimeID"
             android:layout_width="280dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="120dp"
@@ -23,7 +23,7 @@
             app:layout_constraintTop_toBottomOf="@+id/spinnerLastLocID" />
 
         <TextView
-            android:id="@+id/textView19"
+            android:id="@+id/textViewDateID"
             android:layout_width="280dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="120dp"
@@ -152,15 +152,27 @@
             app:layout_constraintTop_toBottomOf="@+id/spinnerLastLocID" />
 
         <Button
-            android:id="@+id/btnPlotHistoryLocID"
+        android:id="@+id/btnPlotHistoryLocID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        android:text="Plot Location To Maps"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtViewLocHistLongID" />
+
+        <Button
+            android:id="@+id/btnLocationHistoryUpdateID"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="28dp"
-            android:text="Plot Location To Maps"
+            android:layout_marginTop="16dp"
+            android:text="Update Location"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtViewLocHistLongID" />
+            app:layout_constraintTop_toBottomOf="@+id/btnPlotHistoryLocID" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>
