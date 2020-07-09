@@ -101,6 +101,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
+        //Use this as final value
         shortestHospitalFromIncidentFinal = shortestHospitalFromIncident / 1000;
         shortestPoliceFromIncidentFinal = shortestPoliceFromIncident / 1000;
 
