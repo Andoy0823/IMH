@@ -32,6 +32,7 @@ public class ReportMapViewFragment extends Fragment implements OnMapReadyCallbac
     double allHospitalLong[] = {120.946531, 120.939514, 120.938735, 120.979819, 120.987978, 120.976867, 120.976085, 121.003543};
     String hospitalName[] = {"Medical Center Imus","City of Imus Doctors Hospital", "Medicard Cavite Clinic", "Metrosouth Medical Center", "San Agustin Medical Clinic", "Southeast Asian Medical Center",
     "Molino Doctors Hospital", "Las Pinas City Medical Center"};
+
     GoogleMap mGoogleMap;
 
     NavController navController;
