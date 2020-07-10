@@ -67,7 +67,9 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.493"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView5" />
+            app:layout_constraintTop_toBottomOf="@+id/textView5"
+            android:background="@color/colorPrimaryDark"
+            android:popupBackground="@color/colorReportDropDown"/>
 
         <TextView
             android:id="@+id/textView21"
@@ -88,7 +90,9 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/textView21"
-            app:layout_constraintTop_toBottomOf="@+id/spinnerPoliceReportID" />
+            app:layout_constraintTop_toBottomOf="@+id/spinnerPoliceReportID"
+            android:background="@color/colorPrimaryDark"
+            android:popupBackground="@color/colorReportDropDown"/>
 
         <TextView
             android:id="@+id/textView22"
