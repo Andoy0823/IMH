@@ -109,6 +109,9 @@ public class LocationHistoryReportFragment extends Fragment {
                 else if (text.equals("Hospital Locations Report")){
                     navController.navigate(R.id.action_locationHistoryReportFragment_to_hospitalLocationReportFragment);
                 }
+                else if (text.equals("Police Locations Report")){
+                    navController.navigate(R.id.action_locationHistoryReportFragment_to_policeLocationReportFragment);
+                }
             }
 
             @Override

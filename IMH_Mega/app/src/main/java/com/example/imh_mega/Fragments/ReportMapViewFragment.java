@@ -32,6 +32,14 @@ public class ReportMapViewFragment extends Fragment implements OnMapReadyCallbac
     double allHospitalLong[] = {120.946531, 120.939514, 120.938735, 120.979819, 120.987978, 120.976867, 120.976085, 121.003543};
     String hospitalName[] = {"Medical Center Imus","City of Imus Doctors Hospital", "Medicard Cavite Clinic", "Metrosouth Medical Center", "San Agustin Medical Clinic", "Southeast Asian Medical Center",
     "Molino Doctors Hospital", "Las Pinas City Medical Center"};
+
+    double allPoliceLat[] = {14.388826, 14.382097, 14.373063, 14.376789, 14.350296, 14.325721, 14.422035, 14.42297};
+    double allPoliceLong[] = {120.984376, 120.988721, 120.980103, 120.9388, 120.937898, 120.94076, 120.94639, 120.941584};
+    String policeName[] = {"Bacoor City Police - Camella Springeville", "Bacoor City Community Police - Daang Hari", "Molino IV PNP Sub-Station - Molino Rd.", "Police Community Precinct 3 - EAH, IMUS"
+            , "Police Community Precinct 3 - EAH, IMUS", "Police Station - Waltermart, DASMARINAS", "Police Station - Buhay Na Tubig, IMUS", "Imus Police Station - Nueno Ave., IMUS"};
+
+
+
     GoogleMap mGoogleMap;
 
     NavController navController;
@@ -39,7 +47,7 @@ public class ReportMapViewFragment extends Fragment implements OnMapReadyCallbac
 
     String locHistLat, locHistLong;
     int backFragment;
-    Boolean plotAll=false;
+    Boolean plotAll=false, plotAllPolice=false;
 
     public ReportMapViewFragment() {
         // Required empty public constructor
@@ -66,12 +74,14 @@ public class ReportMapViewFragment extends Fragment implements OnMapReadyCallbac
         btnBackToReport = view.findViewById(R.id.btnBackToReportID);
         navController = Navigation.findNavController(view);
 
+        //Argument Receiver from other Fragments
         if (getArguments() != null){
             ReportMapViewFragmentArgs args = ReportMapViewFragmentArgs.fromBundle(getArguments());
             locHistLat = args.getLatitude();
             locHistLong = args.getLongitude();
             backFragment = args.getFragmentBackStack();
             plotAll = args.getPlotAllHospital();
+            plotAllPolice = args.getPlotAllPolice();
         }
 
         btnBackToReport.setOnClickListener(new View.OnClickListener() {
@@ -84,8 +94,11 @@ public class ReportMapViewFragment extends Fragment implements OnMapReadyCallbac
                 else if (backFragment == 2){
                     navController.navigate(R.id.action_reportMapViewFragment_to_locationHistoryReportFragment);
                 }
-                else {
+                else if (backFragment == 3){
                     navController.navigate(R.id.action_reportMapViewFragment_to_hospitalLocationReportFragment);
+                }
+                else {
+                    navController.navigate(R.id.action_reportMapViewFragment_to_policeLocationReportFragment);
                 }
             }
         });
@@ -96,13 +109,19 @@ public class ReportMapViewFragment extends Fragment implements OnMapReadyCallbac
 
         mGoogleMap = googleMap;
         mGoogleMap.getUiSettings().setZoomControlsEnabled(true);
-        if (!plotAll){
+        if (!plotAll && !plotAllPolice){
             mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(Double.parseDouble(locHistLat), Double.parseDouble(locHistLong))).title("This be a title!"));
             mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(Double.parseDouble(locHistLat), Double.parseDouble(locHistLong)), 15));
         }
-        else {
+        else if (plotAll && !plotAllPolice){
             for (int i = 0; i<allHospitalLat.length; i++){
                 mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(allHospitalLat[i], allHospitalLong[i])).title(hospitalName[i]));
+                mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(14.405804, 120.976867), 12));
+            }
+        }
+        else if (plotAllPolice && !plotAll){
+            for (int i = 0; i<allPoliceLat.length; i++){
+                mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(allPoliceLat[i], allPoliceLong[i])).title(policeName[i]));
                 mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(14.405804, 120.976867), 12));
             }
         }

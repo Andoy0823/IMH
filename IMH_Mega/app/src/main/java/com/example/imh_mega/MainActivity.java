@@ -5,7 +5,9 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
+import android.location.Location;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.textfield.TextInputEditText;
@@ -13,6 +15,24 @@ import com.google.android.material.textfield.TextInputEditText;
 public class MainActivity extends AppCompatActivity {
 
     BottomNavigationView bottomNavigationView;
+
+    double allHospitalLat[] = {14.426269, 14.399959, 14.376212, 14.373747, 14.395625, 14.405804, 14.410574, 14.429737};
+    double allHospitalLong[] = {120.946531, 120.939514, 120.938735, 120.979819, 120.987978, 120.976867, 120.976085, 121.003543};
+    String hospitalName[] = {"Medical Center Imus","City of Imus Doctors Hospital", "Medicard Cavite Clinic", "Metrosouth Medical Center", "San Agustin Medical Clinic", "Southeast Asian Medical Center",
+            "Molino Doctors Hospital", "Las Pinas City Medical Center"};
+    String hospitalContact[] = {"09209536984", "09209536984", "09752955837", "09752955837", "09752955837", "09177280117", "09177280117", "09177280117"};
+
+    double allPoliceLat[] = {14.388826, 14.382097, 14.373063, 14.376789, 14.350296, 14.325721, 14.422035, 14.42297};
+    double allPoliceLong[] = {120.984376, 120.988721, 120.980103, 120.9388, 120.937898, 120.94076, 120.94639, 120.941584};
+    String policeName[] = {"Bacoor City Police - Camella Springeville", "Bacoor City Community Police - Daang Hari", "Molino IV PNP Sub-Station - Molino Rd.", "Police Community Precinct 3 - EAH, IMUS"
+    , "Police Community Precinct 3 - EAH, IMUS", "Police Station - Waltermart, DASMARINAS", "Police Station - Buhay Na Tubig, IMUS", "Imus Police Station - Nueno Ave., IMUS"};
+    String policeContact[] = {"09209536984", "09209536984", "09752955837", "09752955837", "09752955837", "09177280117", "09177280117", "09177280117"};
+
+
+    double shortestHospitalFromIncident, shortestHospitalFromIncidentFinal, shortestPoliceFromIncident, shortestPoliceFromIncidentFinal, tempDistanceHospital, tempDistancePolice;
+    String shortestHospitalStr, shortestPoliceStr, shortestHospitalContact, shortestPoliceContact;
+
+    Location initialLocation, hospitalLocation, policeLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +45,68 @@ public class MainActivity extends AppCompatActivity {
 
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
 
+        initialLocation = new Location("");
+        hospitalLocation = new Location("");
+        policeLocation = new Location("");
+
+        //Initial Testing of Distance checker. Init Value = Bahay ni Red.
+        /*
+        initialLocation.setLatitude(14.402138);
+        initialLocation.setLongitude(120.989708);
+
+        hospitalLocation.setLatitude(14.429737);
+        hospitalLocation.setLongitude(121.003543);
+
+        double distance = initialLocation.distanceTo(hospitalLocation);
+        double distanceFinal = distance / 1000;
+
+        Toast.makeText(this, "Distance = " + distanceFinal + " Km", Toast.LENGTH_SHORT).show();
+
+         */
+
+        //Static Value of Incident
+        initialLocation.setLatitude(14.402138);
+        initialLocation.setLongitude(120.989708);
+
+        //Logic for Shortest Distance of Hospital and Police.
+        for (int i=0; i<allHospitalLat.length; i++){
+
+            hospitalLocation.setLatitude(allHospitalLat[i]);
+            hospitalLocation.setLongitude(allHospitalLong[i]);
+
+            policeLocation.setLatitude(allPoliceLat[i]);
+            policeLocation.setLongitude(allPoliceLong[i]);
+
+            tempDistanceHospital = initialLocation.distanceTo(hospitalLocation);
+            tempDistancePolice = initialLocation.distanceTo(policeLocation);
+            if (i == 0){
+                shortestHospitalFromIncident = tempDistanceHospital;
+                shortestHospitalStr = hospitalName[i];
+
+                shortestPoliceFromIncident = tempDistancePolice;
+                shortestPoliceStr = policeName[i];
+            }
+            else {
+                if (tempDistanceHospital < shortestHospitalFromIncident){
+
+                    shortestHospitalFromIncident = tempDistanceHospital;
+                    shortestHospitalStr = hospitalName[i];
+                }
+
+                if (tempDistancePolice < shortestPoliceFromIncident){
+
+                    shortestPoliceFromIncident = tempDistancePolice;
+                    shortestPoliceStr = policeName[i];
+                }
+            }
+        }
+
+        //Use this as final value
+        shortestHospitalFromIncidentFinal = shortestHospitalFromIncident / 1000;
+        shortestPoliceFromIncidentFinal = shortestPoliceFromIncident / 1000;
+
+        Toast.makeText(this, "Shortest Distance is " + shortestHospitalFromIncidentFinal + " km. At " + shortestHospitalStr + ". And Police is "
+                + shortestPoliceFromIncidentFinal + "km. At " + shortestPoliceStr, Toast.LENGTH_LONG).show();
 
     }
 }

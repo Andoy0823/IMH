@@ -4,64 +4,54 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".Fragments.HospitalLocationReportFragment">
+    tools:context=".Fragments.PoliceLocationReportFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/txtViewHospitalAddressID"
+            android:id="@+id/txtViewPoliceContactID"
             android:layout_width="260dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="66dp"
-            android:text=""
-            android:textSize="20sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.589"
-            app:layout_constraintStart_toEndOf="@+id/textView24"
-            app:layout_constraintTop_toBottomOf="@+id/txtViewHospitalLongID" />
-
-        <TextView
-            android:id="@+id/txtViewHospitalLatID"
-            android:layout_width="260dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="104dp"
+            android:layout_marginTop="316dp"
             android:text=""
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.6"
             app:layout_constraintStart_toEndOf="@+id/textView22"
-            app:layout_constraintTop_toBottomOf="@+id/spinnerHospitalChooserID" />
+            app:layout_constraintTop_toBottomOf="@+id/spinnerPoliceChooserID" />
 
         <TextView
-            android:id="@+id/textView24"
-            android:layout_width="wrap_content"
+            android:id="@+id/txtViewPoliceAddressID"
+            android:layout_width="260dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="28dp"
-            android:layout_marginTop="288dp"
-            android:text="Address: "
+            android:layout_marginTop="240dp"
+            android:text=""
             android:textSize="20sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView21" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.6"
+            app:layout_constraintStart_toEndOf="@+id/textView22"
+            app:layout_constraintTop_toBottomOf="@+id/spinnerPoliceChooserID" />
 
         <TextView
-            android:id="@+id/textView23"
-            android:layout_width="wrap_content"
+            android:id="@+id/txtViewPoliceLongID"
+            android:layout_width="260dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="28dp"
-            android:layout_marginTop="196dp"
-            android:text="Longitude: "
+            android:layout_marginTop="160dp"
+            android:text=""
             android:textSize="20sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView21" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.6"
+            app:layout_constraintStart_toEndOf="@+id/textView22"
+            app:layout_constraintTop_toBottomOf="@+id/spinnerPoliceChooserID" />
 
         <TextView
             android:id="@+id/textView5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
-            android:text="HOSPITAL LOCATION REPORT"
+            android:text="POLICE LOCATION REPORT"
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
@@ -70,7 +60,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <Spinner
-            android:id="@+id/spinnerHospitalReportID"
+            android:id="@+id/spinnerPoliceReportID"
             android:layout_width="336dp"
             android:layout_height="41dp"
             android:layout_marginTop="24dp"
@@ -83,24 +73,24 @@
 
         <TextView
             android:id="@+id/textView21"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="122dp"
+            android:layout_height="37dp"
             android:layout_marginStart="28dp"
-            android:layout_marginTop="56dp"
-            android:text="Choose Hospital: "
+            android:layout_marginTop="44dp"
+            android:text="Choose Police Station: "
             android:textSize="15sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/spinnerHospitalReportID" />
+            app:layout_constraintTop_toBottomOf="@+id/spinnerPoliceReportID" />
 
         <Spinner
-            android:id="@+id/spinnerHospitalChooserID"
+            android:id="@+id/spinnerPoliceChooserID"
             android:layout_width="261dp"
             android:layout_height="40dp"
             android:layout_marginTop="44dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/textView21"
-            app:layout_constraintTop_toBottomOf="@+id/spinnerHospitalReportID"
+            app:layout_constraintTop_toBottomOf="@+id/spinnerPoliceReportID"
             android:background="@color/colorPrimaryDark"
             android:popupBackground="@color/colorReportDropDown"/>
 
@@ -109,46 +99,76 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="28dp"
-            android:layout_marginTop="112dp"
+            android:layout_marginTop="76dp"
             android:text="Latitude: "
             android:textSize="20sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView21" />
 
         <TextView
-            android:id="@+id/txtViewHospitalLongID"
+            android:id="@+id/textView23"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="164dp"
+            android:text="Longitude: "
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView21" />
+
+        <TextView
+            android:id="@+id/textView24"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="244dp"
+            android:text="Address: "
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView21" />
+
+        <TextView
+            android:id="@+id/textView25"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="320dp"
+            android:text="Contact: "
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView21" />
+
+        <TextView
+            android:id="@+id/txtViewPoliceLatID"
             android:layout_width="260dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="56dp"
+            android:layout_marginTop="72dp"
             android:text=""
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.333"
-            app:layout_constraintStart_toEndOf="@+id/textView23"
-            app:layout_constraintTop_toBottomOf="@+id/txtViewHospitalLatID" />
+            app:layout_constraintHorizontal_bias="0.6"
+            app:layout_constraintStart_toEndOf="@+id/textView22"
+            app:layout_constraintTop_toBottomOf="@+id/spinnerPoliceChooserID" />
 
         <Button
-            android:id="@+id/btnPlotSpecHospitalID"
+            android:id="@+id/btnPlotAllPoliceID"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="36dp"
-            android:text="Plot Specific"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtViewHospitalAddressID" />
-
-        <Button
-            android:id="@+id/btnPlotAllHospitalID"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+            android:layout_marginStart="64dp"
+            android:layout_marginTop="48dp"
             android:text="Plot All"
-            android:textStyle="bold"
-            android:backgroundTint="@color/colorAccent"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btnPlotSpecHospitalID" />
+            app:layout_constraintTop_toBottomOf="@+id/txtViewPoliceContactID" />
+
+        <Button
+            android:id="@+id/btnPlotSpecPoliceID"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="48dp"
+            android:layout_marginEnd="68dp"
+            android:text="Plot Single"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtViewPoliceContactID" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>
