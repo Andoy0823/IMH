@@ -10,6 +10,7 @@
         <item>Incident Report</item>
         <item>Location History Report</item>
         <item>Hospital Locations Report</item>
+        <item>Police Locations Report</item>
 
     </string-array>
 
@@ -22,5 +23,16 @@
         <item>Southeast Asian Medical Center</item>
         <item>Molino Doctors Hospital</item>
         <item>Las Pinas City Medical Center</item>
+    </string-array>
+
+    <string-array name="policeStations">
+        <item>Bacoor City Police - Camela Springeville</item>
+        <item>Bacoor City Community Police - Daang Hari</item>
+        <item>Molino IV PNP Sub-Station - Molino Rd.</item>
+        <item>Police Community Precinct 3 - EAH, IMUS</item>
+        <item>Salitran Police Station - EAH, DASMARINAS</item>
+        <item>Police Station - Waltermart, DASMARINAS</item>
+        <item>Police Station - Buhay Na Tubig, IMUS</item>
+        <item>Imus Police Station - Nueno Ave., IMUS</item>
     </string-array>
 </resources>

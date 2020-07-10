@@ -18,6 +18,9 @@
         <action
             android:id="@+id/action_incidentReportFragment_to_hospitalLocationReportFragment"
             app:destination="@id/hospitalLocationReportFragment" />
+        <action
+            android:id="@+id/action_incidentReportFragment_to_policeLocationReportFragment"
+            app:destination="@id/policeLocationReportFragment" />
     </fragment>
     <fragment
         android:id="@+id/locationHistoryReportFragment"
@@ -33,6 +36,9 @@
         <action
             android:id="@+id/action_locationHistoryReportFragment_to_hospitalLocationReportFragment"
             app:destination="@id/hospitalLocationReportFragment" />
+        <action
+            android:id="@+id/action_locationHistoryReportFragment_to_policeLocationReportFragment"
+            app:destination="@id/policeLocationReportFragment" />
     </fragment>
     <fragment
         android:id="@+id/reportMapViewFragment"
@@ -64,6 +70,13 @@
             android:name="PlotAllHospital"
             app:argType="boolean"
             android:defaultValue="false" />
+        <action
+            android:id="@+id/action_reportMapViewFragment_to_policeLocationReportFragment"
+            app:destination="@id/policeLocationReportFragment" />
+        <argument
+            android:name="PlotAllPolice"
+            app:argType="boolean"
+            android:defaultValue="false" />
     </fragment>
     <fragment
         android:id="@+id/hospitalLocationReportFragment"
@@ -78,6 +91,27 @@
             app:destination="@id/locationHistoryReportFragment" />
         <action
             android:id="@+id/action_hospitalLocationReportFragment_to_reportMapViewFragment"
+            app:destination="@id/reportMapViewFragment" />
+        <action
+            android:id="@+id/action_hospitalLocationReportFragment_to_policeLocationReportFragment"
+            app:destination="@id/policeLocationReportFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/policeLocationReportFragment"
+        android:name="com.example.imh_mega.Fragments.PoliceLocationReportFragment"
+        android:label="fragment_police_location_report"
+        tools:layout="@layout/fragment_police_location_report" >
+        <action
+            android:id="@+id/action_policeLocationReportFragment_to_locationHistoryReportFragment"
+            app:destination="@id/locationHistoryReportFragment" />
+        <action
+            android:id="@+id/action_policeLocationReportFragment_to_incidentReportFragment"
+            app:destination="@id/incidentReportFragment" />
+        <action
+            android:id="@+id/action_policeLocationReportFragment_to_hospitalLocationReportFragment"
+            app:destination="@id/hospitalLocationReportFragment" />
+        <action
+            android:id="@+id/action_policeLocationReportFragment_to_reportMapViewFragment"
             app:destination="@id/reportMapViewFragment" />
     </fragment>
 </navigation>
