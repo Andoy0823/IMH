@@ -201,6 +201,7 @@ public class HomeFragment extends Fragment {
                     @Override
                     public void onFailure(Call<List<searchRiderModel>> call, Throwable t) {
 
+
                         Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
                         loadingDialog.dismissDialog();
                     }

@@ -6,6 +6,10 @@ import com.google.gson.annotations.SerializedName;
 public class LocationHistorySpinnerModel {
 
     @Expose
+    @SerializedName("RtcID")
+    private Integer RtcID;
+
+    @Expose
     @SerializedName("RtcLatitude")
     private String RtcLatitude;
 
@@ -28,6 +32,14 @@ public class LocationHistorySpinnerModel {
     @Expose
     @SerializedName("Success")
     private boolean Success;
+
+    public Integer getRtcID() {
+        return RtcID;
+    }
+
+    public void setRtcID(Integer rtcID) {
+        RtcID = rtcID;
+    }
 
     public String getRtcLatitude() {
         return RtcLatitude;

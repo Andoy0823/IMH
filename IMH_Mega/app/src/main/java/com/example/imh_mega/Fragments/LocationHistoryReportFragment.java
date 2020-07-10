@@ -7,22 +7,28 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.imh_mega.Fragments.Adapters.LocationHistoryAdapter;
 import com.example.imh_mega.Fragments.Models.LocationHistorySpinnerModel;
 import com.example.imh_mega.R;
 import com.example.imh_mega.Retrofit.APIInterface;
 import com.example.imh_mega.Retrofit.ApiClient;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,20 +44,23 @@ public class LocationHistoryReportFragment extends Fragment {
     NavController navController;
     Spinner spinnerLocReportType;
     Button btnPlotReport;
-    TextView txtViewLocHistLat, txtViewLocHistLong;
-
-    @BindView(R.id.textViewTimeID) TextView txtViewTime;
-    @BindView(R.id.textViewDateID) TextView txtViewDate;
-
-    @BindView(R.id.spinnerLastLocID) Spinner spinLastLoc;
-
     @BindView(R.id.btnLocationHistoryUpdateID) Button historyUpdateButton;
 
     APIInterface apiInterface;
 
-    ArrayList<String> lastNhistory;
+    //Choose how many locations to be outputed
 
-    Integer counter = 0, getPosition, tempValue, powsitionCheck;
+    @BindView(R.id.spinnerLastLocID) Spinner spinLastLoc;
+    ArrayList<String> lastNhistory;
+    Integer counter = 0;
+
+    //Recycler View
+
+    private LocationHistoryAdapter locationHistoryAdapter;
+    private RecyclerView locationHistory_recyclerView;
+    ArrayList<LocationHistorySpinnerModel> lowcationHistoryArray = new ArrayList<>();
+
+    /////////////////////////////////////////////////////////////////////////////////
 
 
     public LocationHistoryReportFragment() {
@@ -76,8 +85,6 @@ public class LocationHistoryReportFragment extends Fragment {
         navController = Navigation.findNavController(view);
         spinnerLocReportType = view.findViewById(R.id.spinnerLocReportTypeID);
         btnPlotReport = view.findViewById(R.id.btnPlotHistoryLocID);
-        txtViewLocHistLat = view.findViewById(R.id.txtViewLocHistLatID);
-        txtViewLocHistLong = view.findViewById(R.id.txtViewLocHistLongID);
 
         //Array
 
@@ -85,6 +92,8 @@ public class LocationHistoryReportFragment extends Fragment {
 
         //Api
         apiInterface = ApiClient.getAPIClient().create(APIInterface.class);
+
+        //Spinner for Reports
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(), R.array.reportTypes, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -141,8 +150,6 @@ public class LocationHistoryReportFragment extends Fragment {
 
                         lastNhistory.add(historyCheck);
 
-
-
                     }
 
                 }
@@ -150,7 +157,6 @@ public class LocationHistoryReportFragment extends Fragment {
                 ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(getActivity(),android.R.layout.simple_spinner_item, lastNhistory);
 
                 spinLastLoc.setAdapter(spinnerAdapter);
-
 
             }
 
@@ -168,10 +174,10 @@ public class LocationHistoryReportFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                //Help
-
             }
         });
+
+        //Plot Report
 
         btnPlotReport.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -180,8 +186,6 @@ public class LocationHistoryReportFragment extends Fragment {
                 LocationHistoryReportFragmentDirections.ActionLocationHistoryReportFragmentToReportMapViewFragment action
                         = LocationHistoryReportFragmentDirections.actionLocationHistoryReportFragmentToReportMapViewFragment();
 
-                action.setLatitude(txtViewLocHistLat.getText().toString().trim());
-                action.setLongitude(txtViewLocHistLong.getText().toString().trim());
                 action.setFragmentBackStack(2);
                 action.setPlotAllHospital(false);
 
@@ -189,6 +193,14 @@ public class LocationHistoryReportFragment extends Fragment {
 
             }
         });
+
+        //Recycler View
+
+        locationHistory_recyclerView = view.findViewById(R.id.locationHistoryRecyclerView);
+        locationHistory_recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        getLocationHistory();
+
 
     }
 
@@ -211,4 +223,52 @@ public class LocationHistoryReportFragment extends Fragment {
         return sb.toString();
     }
 
+    private void getLocationHistory(){
+
+        Call<List<LocationHistorySpinnerModel>> historyListCall = apiInterface.getHistowry();
+
+        historyListCall.enqueue(new Callback<List<LocationHistorySpinnerModel>>() {
+            @Override
+            public void onResponse(Call<List<LocationHistorySpinnerModel>> call, Response<List<LocationHistorySpinnerModel>> response) {
+
+                lowcationHistoryArray = new ArrayList<>(response.body());
+
+                String spinnerValue = spinLastLoc.getSelectedItem().toString();
+
+                String convertedSpinnerValue = extractNumber(spinnerValue);
+
+                Integer integeredSpinnerValue = Integer.parseInt(convertedSpinnerValue);
+
+                Integer newintegeredSpinnerValue = integeredSpinnerValue + 102000000;
+
+                for (LocationHistorySpinnerModel lowcationHistorySpinnerModel : lowcationHistoryArray){
+
+                    if (lowcationHistorySpinnerModel.getRtcID().equals(newintegeredSpinnerValue - 1)){
+
+                        locationHistoryAdapter = new LocationHistoryAdapter(getActivity(), lowcationHistoryArray);
+
+                        locationHistory_recyclerView.setAdapter(locationHistoryAdapter);
+
+                        Toast.makeText(getActivity(), "Yey", Toast.LENGTH_SHORT).show();
+
+                    }
+
+                    else{
+
+                        Toast.makeText(getActivity(), "Whoops", Toast.LENGTH_SHORT).show();
+
+                    }
+
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<List<LocationHistorySpinnerModel>> call, Throwable t) {
+
+                Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
+
+            }
+        });
+    }
 }
