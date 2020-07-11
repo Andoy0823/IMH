@@ -15,21 +15,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.imh_mega.Fragments.Adapters.LocationHistoryAdapter;
+import com.example.imh_mega.Fragments.Models.CoordinateLatitudeModel;
+import com.example.imh_mega.Fragments.Models.CoordinateLongitudeModel;
 import com.example.imh_mega.Fragments.Models.LocationHistorySpinnerModel;
 import com.example.imh_mega.R;
 import com.example.imh_mega.Retrofit.APIInterface;
 import com.example.imh_mega.Retrofit.ApiClient;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
@@ -49,10 +49,8 @@ public class LocationHistoryReportFragment extends Fragment {
     APIInterface apiInterface;
 
     //Choose how many locations to be outputed
-
-    @BindView(R.id.spinnerLastLocID) Spinner spinLastLoc;
     ArrayList<String> lastNhistory;
-    Integer counter = 0;
+    Integer counter = 1;
 
     //Recycler View
 
@@ -103,70 +101,21 @@ public class LocationHistoryReportFragment extends Fragment {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long l) {
                 String text = parent.getItemAtPosition(position).toString();
                 navController = Navigation.findNavController(view);
-                if (text.equals("Incident Report")){
-                    navController.navigate(R.id.action_locationHistoryReportFragment_to_incidentReportFragment);
-                }
-                else if (text.equals("Hospital Locations Report")){
-                    navController.navigate(R.id.action_locationHistoryReportFragment_to_hospitalLocationReportFragment);
-                }
-                else if (text.equals("Police Locations Report")){
-                    navController.navigate(R.id.action_locationHistoryReportFragment_to_policeLocationReportFragment);
+                switch (text) {
+                    case "Incident Report":
+                        navController.navigate(R.id.action_locationHistoryReportFragment_to_incidentReportFragment);
+                        break;
+                    case "Hospital Locations Report":
+                        navController.navigate(R.id.action_locationHistoryReportFragment_to_hospitalLocationReportFragment);
+                        break;
+                    case "Police Locations Report":
+                        navController.navigate(R.id.action_locationHistoryReportFragment_to_policeLocationReportFragment);
+                        break;
                 }
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
-
-        //Location History Spinner
-
-        Call<List<LocationHistorySpinnerModel>> historyRepowrtspinner = apiInterface.getHistowry();
-
-        historyRepowrtspinner.enqueue(new Callback<List<LocationHistorySpinnerModel>>() {
-            @Override
-            public void onResponse(Call<List<LocationHistorySpinnerModel>> call, Response<List<LocationHistorySpinnerModel>> response) {
-
-                if (!response.isSuccessful()){
-
-                    Toast.makeText(getActivity(), response.code(), Toast.LENGTH_SHORT).show();
-
-                }
-
-                List<LocationHistorySpinnerModel> spinnerModelList = response.body();
-
-                for (LocationHistorySpinnerModel spinnerMowdel : spinnerModelList){
-
-                    counter++;
-
-                    if (counter.equals(1)){
-
-                        String historyCheck = "Last " + counter + " location";
-                        lastNhistory.add(historyCheck);
-
-                    }
-
-                    else {
-
-                        String historyCheck = "Last " + counter + " locations";
-
-                        lastNhistory.add(historyCheck);
-
-                    }
-
-                }
-
-                ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(getActivity(),android.R.layout.simple_spinner_item, lastNhistory);
-
-                spinLastLoc.setAdapter(spinnerAdapter);
-
-            }
-
-            @Override
-            public void onFailure(Call<List<LocationHistorySpinnerModel>> call, Throwable t) {
-
-                Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -177,25 +126,14 @@ public class LocationHistoryReportFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-            }
-        });
+                getLatCoord();
 
-        //Plot Report
-
-        btnPlotReport.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //navController.navigate(R.id.action_locationHistoryReportFragment_to_reportMapViewFragment);
-                LocationHistoryReportFragmentDirections.ActionLocationHistoryReportFragmentToReportMapViewFragment action
-                        = LocationHistoryReportFragmentDirections.actionLocationHistoryReportFragmentToReportMapViewFragment();
-
-                action.setFragmentBackStack(2);
-                action.setPlotAllHospital(false);
-
-                navController.navigate(action);
+                getLongCoord();
 
             }
         });
+
+        setBtnPlotReport();
 
         //Recycler View
 
@@ -203,7 +141,6 @@ public class LocationHistoryReportFragment extends Fragment {
         locationHistory_recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         getLocationHistory();
-
 
     }
 
@@ -236,31 +173,13 @@ public class LocationHistoryReportFragment extends Fragment {
 
                 lowcationHistoryArray = new ArrayList<>(response.body());
 
-                String spinnerValue = spinLastLoc.getSelectedItem().toString();
-
-                String convertedSpinnerValue = extractNumber(spinnerValue);
-
-                Integer integeredSpinnerValue = Integer.parseInt(convertedSpinnerValue);
-
-                Integer newintegeredSpinnerValue = integeredSpinnerValue + 102000000;
-
                 for (LocationHistorySpinnerModel lowcationHistorySpinnerModel : lowcationHistoryArray){
 
-                    if (lowcationHistorySpinnerModel.getRtcID().equals(newintegeredSpinnerValue - 1)){
+                    locationHistoryAdapter = new LocationHistoryAdapter(getActivity(), lowcationHistoryArray);
 
-                        locationHistoryAdapter = new LocationHistoryAdapter(getActivity(), lowcationHistoryArray);
+                    locationHistory_recyclerView.setAdapter(locationHistoryAdapter);
 
-                        locationHistory_recyclerView.setAdapter(locationHistoryAdapter);
-
-                        Toast.makeText(getActivity(), "Yey", Toast.LENGTH_SHORT).show();
-
-                    }
-
-                    else{
-
-                        Toast.makeText(getActivity(), "Whoops", Toast.LENGTH_SHORT).show();
-
-                    }
+                    Toast.makeText(getActivity(), "Yey", Toast.LENGTH_SHORT).show();
 
                 }
 
@@ -274,4 +193,97 @@ public class LocationHistoryReportFragment extends Fragment {
             }
         });
     }
+
+    private void setBtnPlotReport(){
+
+        //Plot Report
+
+        btnPlotReport.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //navController.navigate(R.id.action_locationHistoryReportFragment_to_reportMapViewFragment);
+                LocationHistoryReportFragmentDirections.ActionLocationHistoryReportFragmentToReportMapViewFragment action
+                        = LocationHistoryReportFragmentDirections.actionLocationHistoryReportFragmentToReportMapViewFragment();
+
+                action.setFragmentBackStack(2);
+                action.setPlotAllHospital(false);
+
+                navController.navigate(action);
+
+            }
+        });
+
+    }
+
+    private void getLatCoord(){
+
+        Call<List<CoordinateLatitudeModel>> latitudeListCall = apiInterface.getLatitudeList();
+
+        latitudeListCall.enqueue(new Callback<List<CoordinateLatitudeModel>>() {
+            @Override
+            public void onResponse(Call<List<CoordinateLatitudeModel>> call, Response<List<CoordinateLatitudeModel>> response) {
+
+                if (!response.isSuccessful()){
+                    Toast.makeText(getActivity(), response.code(), Toast.LENGTH_SHORT).show();
+                }
+
+                List<CoordinateLatitudeModel> coordinateLatitudeMowdelList = response.body();
+
+                String latitudeCoord[] = new String[coordinateLatitudeMowdelList.size()];
+
+                for (int i = 0; i < coordinateLatitudeMowdelList.size(); i++){
+
+                    latitudeCoord[i] = coordinateLatitudeMowdelList.get(i).getRtcLatitude();
+
+                }
+
+                Toast.makeText(getActivity(), "Latitude: " + Arrays.toString(latitudeCoord), Toast.LENGTH_SHORT).show();
+
+            }
+
+            @Override
+            public void onFailure(Call<List<CoordinateLatitudeModel>> call, Throwable t) {
+
+                Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+
+    }
+
+    private void getLongCoord(){
+
+        Call<List<CoordinateLongitudeModel>> longitudeListCall = apiInterface.getLongitudeList();
+
+        longitudeListCall.enqueue(new Callback<List<CoordinateLongitudeModel>>() {
+            @Override
+            public void onResponse(Call<List<CoordinateLongitudeModel>> call, Response<List<CoordinateLongitudeModel>> response) {
+
+                if (!response.isSuccessful()){
+                    Toast.makeText(getActivity(), response.code(), Toast.LENGTH_SHORT).show();
+                }
+
+                List<CoordinateLongitudeModel> coordinateLongitudeMowdelList = response.body();
+
+                String longitudeCoord[] = new String[coordinateLongitudeMowdelList.size()];
+
+                for (int i = 0; i < coordinateLongitudeMowdelList.size(); i++){
+
+                    longitudeCoord[i] = coordinateLongitudeMowdelList.get(i).getRtcLongitude();
+
+                }
+
+                Toast.makeText(getActivity(), "Longitude: " + Arrays.toString(longitudeCoord), Toast.LENGTH_SHORT).show();
+
+            }
+
+            @Override
+            public void onFailure(Call<List<CoordinateLongitudeModel>> call, Throwable t) {
+                Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
 }

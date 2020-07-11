@@ -55,6 +55,8 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 loadingDialog.startLoadingDialog();
+
+
                 Call<VipModel> VipModelCall = apiInterface.loginUser(editUserLogin.getText().toString().trim(),
                                                                         editPassLogin.getText().toString().trim());
 

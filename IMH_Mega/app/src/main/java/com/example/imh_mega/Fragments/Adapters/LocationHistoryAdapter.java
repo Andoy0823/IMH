@@ -42,7 +42,8 @@ public class LocationHistoryAdapter extends RecyclerView.Adapter<LocationHistory
         holder.txtDateView.setText("Date: " + spinnerMowdelArrayList.get(position).getRtcDate());
         holder.txtLatView.setText("Latitude: " + spinnerMowdelArrayList.get(position).getRtcLatitude());
         holder.txtLongView.setText("Longitude: " + spinnerMowdelArrayList.get(position).getRtcLongitude());
-        holder.txtDivision.setText("----------------------------------------");
+        holder.txtRtc.setText("ID: " + spinnerMowdelArrayList.get(position).getRtcID());
+        holder.txtDivision.setText("-----------------------------------------------------------");
 
     }
 
@@ -53,7 +54,7 @@ public class LocationHistoryAdapter extends RecyclerView.Adapter<LocationHistory
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 
-        private TextView txtTimeView, txtDateView, txtLatView, txtLongView, txtDivision;
+        private TextView txtTimeView, txtDateView, txtLatView, txtLongView, txtDivision, txtRtc;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -63,6 +64,7 @@ public class LocationHistoryAdapter extends RecyclerView.Adapter<LocationHistory
             txtLatView = itemView.findViewById(R.id.txtViewLatHistoryID);
             txtLongView = itemView.findViewById(R.id.txtViewLongHistoryID);
             txtDivision = itemView.findViewById(R.id.txtViewDivisionID);
+            txtRtc = itemView.findViewById(R.id.txtViewRtcHistoryID);
 
         }
     }
