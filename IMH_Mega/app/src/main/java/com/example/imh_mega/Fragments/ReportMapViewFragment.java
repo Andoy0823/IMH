@@ -38,7 +38,7 @@ public class ReportMapViewFragment extends Fragment implements OnMapReadyCallbac
     double allPoliceLat[] = {14.388826, 14.382097, 14.373063, 14.376789, 14.350296, 14.325721, 14.422035, 14.42297};
     double allPoliceLong[] = {120.984376, 120.988721, 120.980103, 120.9388, 120.937898, 120.94076, 120.94639, 120.941584};
     String policeName[] = {"Bacoor City Police - Camella Springeville", "Bacoor City Community Police - Daang Hari", "Molino IV PNP Sub-Station - Molino Rd.", "Police Community Precinct 3 - EAH, IMUS"
-            , "Police Community Precinct 3 - EAH, IMUS", "Police Station - Waltermart, DASMARINAS", "Police Station - Buhay Na Tubig, IMUS", "Imus Police Station - Nueno Ave., IMUS"};
+            , "Salitran Police Station - EAH, DASMARINAS", "Police Station - Waltermart, DASMARINAS", "Police Station - Buhay Na Tubig, IMUS", "Imus Police Station - Nueno Ave., IMUS"};
 
 
 
