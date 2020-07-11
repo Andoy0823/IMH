@@ -77,6 +77,90 @@
             android:name="PlotAllPolice"
             app:argType="boolean"
             android:defaultValue="false" />
+        <argument
+            android:name="PlotLastTenLoc"
+            app:argType="boolean"
+            android:defaultValue="false" />
+        <argument
+            android:name="LastLat0"
+            app:argType="string"
+            android:defaultValue="default" />
+        <argument
+            android:name="LastLat1"
+            app:argType="string"
+            android:defaultValue="default" />
+        <argument
+            android:name="LastLat2"
+            app:argType="string"
+            android:defaultValue="default" />
+        <argument
+            android:name="LastLat3"
+            app:argType="string"
+            android:defaultValue="default" />
+        <argument
+            android:name="LastLat4"
+            app:argType="string"
+            android:defaultValue="default" />
+        <argument
+            android:name="LastLat5"
+            app:argType="string"
+            android:defaultValue="default" />
+        <argument
+            android:name="LastLat6"
+            app:argType="string"
+            android:defaultValue="default" />
+        <argument
+            android:name="LastLat7"
+            app:argType="string"
+            android:defaultValue="default" />
+        <argument
+            android:name="LastLat8"
+            app:argType="string"
+            android:defaultValue="default" />
+        <argument
+            android:name="LastLat9"
+            app:argType="string"
+            android:defaultValue="default" />
+        <argument
+            android:name="LastLong0"
+            app:argType="string"
+            android:defaultValue="default" />
+        <argument
+            android:name="LastLong1"
+            app:argType="string"
+            android:defaultValue="default" />
+        <argument
+            android:name="LastLong2"
+            app:argType="string"
+            android:defaultValue="default" />
+        <argument
+            android:name="LastLong3"
+            app:argType="string"
+            android:defaultValue="default" />
+        <argument
+            android:name="LastLong4"
+            app:argType="string"
+            android:defaultValue="default" />
+        <argument
+            android:name="LastLong5"
+            app:argType="string"
+            android:defaultValue="default" />
+        <argument
+            android:name="LastLong6"
+            app:argType="string"
+            android:defaultValue="default" />
+        <argument
+            android:name="LastLong7"
+            app:argType="string"
+            android:defaultValue="default" />
+        <argument
+            android:name="LastLong8"
+            app:argType="string"
+            android:defaultValue="default" />
+        <argument
+            android:name="LastLong9"
+            app:argType="string"
+            android:defaultValue="default" />
     </fragment>
     <fragment
         android:id="@+id/hospitalLocationReportFragment"

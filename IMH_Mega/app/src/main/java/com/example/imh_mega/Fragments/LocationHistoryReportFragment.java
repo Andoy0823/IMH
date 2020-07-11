@@ -23,6 +23,7 @@ import com.example.imh_mega.Fragments.Adapters.LocationHistoryAdapter;
 import com.example.imh_mega.Fragments.Models.CoordinateLatitudeModel;
 import com.example.imh_mega.Fragments.Models.CoordinateLongitudeModel;
 import com.example.imh_mega.Fragments.Models.LocationHistorySpinnerModel;
+import com.example.imh_mega.LoadingDialog;
 import com.example.imh_mega.R;
 import com.example.imh_mega.Retrofit.APIInterface;
 import com.example.imh_mega.Retrofit.ApiClient;
@@ -58,6 +59,11 @@ public class LocationHistoryReportFragment extends Fragment {
     private RecyclerView locationHistory_recyclerView;
     ArrayList<LocationHistorySpinnerModel> lowcationHistoryArray = new ArrayList<>();
 
+    //Global latitude/longitude coordinates(Arguments for map fragment)
+    String globalLatitude[];
+    String globalLongitude[];
+
+    LoadingDialog loadingDialog;
     /////////////////////////////////////////////////////////////////////////////////
 
 
@@ -83,6 +89,7 @@ public class LocationHistoryReportFragment extends Fragment {
         navController = Navigation.findNavController(view);
         spinnerLocReportType = view.findViewById(R.id.spinnerLocReportTypeID);
         btnPlotReport = view.findViewById(R.id.btnPlotHistoryLocID);
+        loadingDialog = new LoadingDialog(getActivity());
 
         //Array
 
@@ -120,27 +127,79 @@ public class LocationHistoryReportFragment extends Fragment {
             }
         });
 
-        //Location History Report
+        getLocationHistory();
 
+        //Initialize Latitude and Longitude to be plotted.
+        loadingDialog.startLoadingDialog();
+        getLatCoord();
+        getLongCoord();
+        loadingDialog.dismissDialog();
+
+        //Location History Report
         historyUpdateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
+                loadingDialog.startLoadingDialog();
                 getLatCoord();
-
                 getLongCoord();
+                loadingDialog.dismissDialog();
 
             }
         });
 
-        setBtnPlotReport();
+        //setBtnPlotReport();
+
+        btnPlotReport.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                LocationHistoryReportFragmentDirections.ActionLocationHistoryReportFragmentToReportMapViewFragment action
+                        = LocationHistoryReportFragmentDirections.actionLocationHistoryReportFragmentToReportMapViewFragment();
+
+
+                //Set Fragment Arguments
+                action.setFragmentBackStack(2);
+                action.setPlotAllHospital(false);
+                action.setLatitude(globalLatitude[0]);
+                action.setLongitude(globalLongitude[0]);
+                action.setPlotLastTenLoc(true);
+
+                //Set Last 10 Location Arguments(Latitude)
+                action.setLastLat0(globalLatitude[0]);
+                action.setLastLat1(globalLatitude[1]);
+                action.setLastLat2(globalLatitude[2]);
+                action.setLastLat3(globalLatitude[3]);
+                action.setLastLat4(globalLatitude[4]);
+                action.setLastLat5(globalLatitude[5]);
+                action.setLastLat6(globalLatitude[6]);
+                action.setLastLat7(globalLatitude[7]);
+                action.setLastLat8(globalLatitude[8]);
+                action.setLastLat9(globalLatitude[9]);
+
+                //Set Last 10 Location Arguments(Longitude)
+                action.setLastLong0(globalLongitude[0]);
+                action.setLastLong1(globalLongitude[1]);
+                action.setLastLong2(globalLongitude[2]);
+                action.setLastLong3(globalLongitude[3]);
+                action.setLastLong4(globalLongitude[4]);
+                action.setLastLong5(globalLongitude[5]);
+                action.setLastLong6(globalLongitude[6]);
+                action.setLastLong7(globalLongitude[7]);
+                action.setLastLong8(globalLongitude[8]);
+                action.setLastLong9(globalLongitude[9]);
+
+                navController.navigate(action);
+                //Toast.makeText(getActivity(), "Latitude= " + Arrays.toString(globalLatitude), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getActivity(), "Longitude= " + Arrays.toString(globalLongitude), Toast.LENGTH_SHORT).show();
+
+            }
+        });
 
         //Recycler View
-
         locationHistory_recyclerView = view.findViewById(R.id.locationHistoryRecyclerView);
         locationHistory_recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        getLocationHistory();
+
 
     }
 
@@ -179,7 +238,7 @@ public class LocationHistoryReportFragment extends Fragment {
 
                     locationHistory_recyclerView.setAdapter(locationHistoryAdapter);
 
-                    Toast.makeText(getActivity(), "Yey", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getActivity(), "Yey", Toast.LENGTH_SHORT).show();
 
                 }
 
@@ -201,14 +260,24 @@ public class LocationHistoryReportFragment extends Fragment {
         btnPlotReport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //navController.navigate(R.id.action_locationHistoryReportFragment_to_reportMapViewFragment);
+
                 LocationHistoryReportFragmentDirections.ActionLocationHistoryReportFragmentToReportMapViewFragment action
                         = LocationHistoryReportFragmentDirections.actionLocationHistoryReportFragmentToReportMapViewFragment();
 
+
+                //Initialize Latitude and Longitude to be plotted.
+                getLatCoord();
+                getLongCoord();
+
+
+                //Set Fragment Arguments
                 action.setFragmentBackStack(2);
                 action.setPlotAllHospital(false);
 
-                navController.navigate(action);
+
+                Toast.makeText(getActivity(), "Latitude= " + Arrays.toString(globalLatitude), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getActivity(), "Longitude= " + Arrays.toString(globalLongitude), Toast.LENGTH_SHORT).show();
+
 
             }
         });
@@ -218,7 +287,6 @@ public class LocationHistoryReportFragment extends Fragment {
     private void getLatCoord(){
 
         Call<List<CoordinateLatitudeModel>> latitudeListCall = apiInterface.getLatitudeList();
-
         latitudeListCall.enqueue(new Callback<List<CoordinateLatitudeModel>>() {
             @Override
             public void onResponse(Call<List<CoordinateLatitudeModel>> call, Response<List<CoordinateLatitudeModel>> response) {
@@ -236,8 +304,11 @@ public class LocationHistoryReportFragment extends Fragment {
                     latitudeCoord[i] = coordinateLatitudeMowdelList.get(i).getRtcLatitude();
 
                 }
-
-                Toast.makeText(getActivity(), "Latitude: " + Arrays.toString(latitudeCoord), Toast.LENGTH_SHORT).show();
+                globalLatitude = new String[10];
+                for (int i=0; i<latitudeCoord.length; i++){
+                    globalLatitude[i] = latitudeCoord[i];
+                }
+                //Toast.makeText(getActivity(), "Latitude: " + Arrays.toString(latitudeCoord), Toast.LENGTH_SHORT).show();
 
             }
 
@@ -274,13 +345,17 @@ public class LocationHistoryReportFragment extends Fragment {
 
                 }
 
-                Toast.makeText(getActivity(), "Longitude: " + Arrays.toString(longitudeCoord), Toast.LENGTH_SHORT).show();
-
+                globalLongitude = new String[10];
+                for (int i=0; i<longitudeCoord.length; i++){
+                    globalLongitude[i] = longitudeCoord[i];
+                }
+                //Toast.makeText(getActivity(), "Longitude: " + Arrays.toString(longitudeCoord), Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onFailure(Call<List<CoordinateLongitudeModel>> call, Throwable t) {
                 Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
+
             }
         });
 
