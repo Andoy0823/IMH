@@ -25,8 +25,9 @@ public class HospitalLocationReportFragment extends Fragment {
 
     Spinner spinnerHospitalReport, spinnerHospitalChooser;
     NavController navController;
-    TextView txtViewHospitalLat, txtViewHospitalLong, txtViewHospitalAddress;
+    TextView txtViewHospitalLat, txtViewHospitalLong, txtViewHospitalAddress, txtViewHospitalContact;
     Button btnPlotSpecHospital, btnPlotAllHospital;
+    String hospitalContact[] = {"09209536984", "09209536984", "09752955837", "09752955837", "09752955837", "09177280117", "09177280117", "09177280117"};
 
     public HospitalLocationReportFragment() {
         // Required empty public constructor
@@ -51,6 +52,7 @@ public class HospitalLocationReportFragment extends Fragment {
         txtViewHospitalAddress = view.findViewById(R.id.txtViewHospitalAddressID);
         btnPlotSpecHospital = view.findViewById(R.id.btnPlotSpecHospitalID);
         btnPlotAllHospital = view.findViewById(R.id.btnPlotAllHospitalID);
+        txtViewHospitalContact = view.findViewById(R.id.txtViewHospitalContactID);
         navController = Navigation.findNavController(view);
 
 
@@ -91,41 +93,49 @@ public class HospitalLocationReportFragment extends Fragment {
                         txtViewHospitalLat.setText("14.426269");
                         txtViewHospitalLong.setText("120.946531");
                         txtViewHospitalAddress.setText("EAH, IMUS");
+                        txtViewHospitalContact.setText(hospitalContact[0]);
                         break;
                     case "City of Imus Doctors Hospital":
                         txtViewHospitalLat.setText("14.399959");
                         txtViewHospitalLong.setText("120.939514");
                         txtViewHospitalAddress.setText("EAH, IMUS");
+                        txtViewHospitalContact.setText(hospitalContact[1]);
                         break;
                     case "Medicard Cavite Clinic":
                         txtViewHospitalLat.setText("14.376212");
                         txtViewHospitalLong.setText("120.938735");
                         txtViewHospitalAddress.setText("EAH, IMUS");
+                        txtViewHospitalContact.setText(hospitalContact[2]);
                         break;
                     case "Metrosouth Medical Center":
                         txtViewHospitalLat.setText("14.373747");
                         txtViewHospitalLong.setText("120.979819");
                         txtViewHospitalAddress.setText("Molino Rd, BACOOR");
+                        txtViewHospitalContact.setText(hospitalContact[3]);
                         break;
                     case "San Agustin Medical Clinic":
                         txtViewHospitalLat.setText("14.395625");
                         txtViewHospitalLong.setText("120.987978");
                         txtViewHospitalAddress.setText("QueensRow Subd, BACOOR");
+                        txtViewHospitalContact.setText(hospitalContact[4]);
                         break;
                     case "Southeast Asian Medical Center":
                         txtViewHospitalLat.setText("14.405804");
                         txtViewHospitalLong.setText("120.976867");
                         txtViewHospitalAddress.setText("Molino Rd, BACOOR");
+                        txtViewHospitalContact.setText(hospitalContact[5]);
                         break;
                     case "Molino Doctors Hospital":
                         txtViewHospitalLat.setText("14.410574");
                         txtViewHospitalLong.setText("120.976085");
                         txtViewHospitalAddress.setText("Molino Rd, BACOOR");
+                        txtViewHospitalContact.setText(hospitalContact[6]);
                         break;
                     case "Las Pinas City Medical Center":
                         txtViewHospitalLat.setText("14.429737");
                         txtViewHospitalLong.setText("121.003543");
                         txtViewHospitalAddress.setText("Marcos Alvarez Rd, Las Pinas");
+                        txtViewHospitalContact.setText(hospitalContact[7]);
                         break;
                 }
             }
