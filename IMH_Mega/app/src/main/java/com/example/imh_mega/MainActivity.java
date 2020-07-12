@@ -7,6 +7,7 @@ import androidx.navigation.ui.NavigationUI;
 
 import android.location.Location;
 import android.os.Bundle;
+import android.os.Handler;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -33,6 +34,11 @@ public class MainActivity extends AppCompatActivity {
     String shortestHospitalStr, shortestPoliceStr, shortestHospitalContact, shortestPoliceContact;
 
     Location initialLocation, hospitalLocation, policeLocation;
+
+    Handler handler;
+    Runnable runnable;
+    int startScanner=10;
+    Boolean scanning = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +70,68 @@ public class MainActivity extends AppCompatActivity {
 
          */
 
+        handler = new Handler();
+        runnable = new Runnable() {
+            @Override
+            public void run() {
+
+                //Scanning every 5 Seconds
+                if (startScanner%5 == 0){
+                    //Static Value of Incident
+                    initialLocation.setLatitude(14.402138);
+                    initialLocation.setLongitude(120.989708);
+
+                    //Logic for Shortest Distance of Hospital and Police.
+                    for (int i=0; i<allHospitalLat.length; i++){
+
+                        hospitalLocation.setLatitude(allHospitalLat[i]);
+                        hospitalLocation.setLongitude(allHospitalLong[i]);
+
+                        policeLocation.setLatitude(allPoliceLat[i]);
+                        policeLocation.setLongitude(allPoliceLong[i]);
+
+                        tempDistanceHospital = initialLocation.distanceTo(hospitalLocation);
+                        tempDistancePolice = initialLocation.distanceTo(policeLocation);
+                        if (i == 0){
+                            shortestHospitalFromIncident = tempDistanceHospital;
+                            shortestHospitalStr = hospitalName[i];
+
+                            shortestPoliceFromIncident = tempDistancePolice;
+                            shortestPoliceStr = policeName[i];
+                        }
+                        else {
+                            if (tempDistanceHospital < shortestHospitalFromIncident){
+
+                                shortestHospitalFromIncident = tempDistanceHospital;
+                                shortestHospitalStr = hospitalName[i];
+                            }
+
+                            if (tempDistancePolice < shortestPoliceFromIncident){
+
+                                shortestPoliceFromIncident = tempDistancePolice;
+                                shortestPoliceStr = policeName[i];
+                            }
+                        }
+                    }
+
+                    //Use this as final value
+                    shortestHospitalFromIncidentFinal = shortestHospitalFromIncident / 1000;
+                    shortestPoliceFromIncidentFinal = shortestPoliceFromIncident / 1000;
+
+                    /*
+                    Toast.makeText(MainActivity.this, "Shortest Distance is " + shortestHospitalFromIncidentFinal + " km. At " + shortestHospitalStr + ". And Police is "
+                            + shortestPoliceFromIncidentFinal + "km. At " + shortestPoliceStr, Toast.LENGTH_SHORT).show();
+
+                     */
+                }
+                startScanner--;
+                handler.postDelayed(this, 1000);
+            }
+        };
+
+        handler.post(runnable);
+
+        /*
         //Static Value of Incident
         initialLocation.setLatitude(14.402138);
         initialLocation.setLongitude(120.989708);
@@ -107,6 +175,6 @@ public class MainActivity extends AppCompatActivity {
 
         Toast.makeText(this, "Shortest Distance is " + shortestHospitalFromIncidentFinal + " km. At " + shortestHospitalStr + ". And Police is "
                 + shortestPoliceFromIncidentFinal + "km. At " + shortestPoliceStr, Toast.LENGTH_LONG).show();
-
+        */
     }
 }
