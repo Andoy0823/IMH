@@ -2,8 +2,11 @@ package com.example.imh_mega.Login;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -16,6 +19,8 @@ import com.example.imh_mega.Retrofit.ApiClient;
 import com.example.imh_mega.Retrofit.APIInterface;
 import com.example.imh_mega.SignUp.SignUpActivity;
 import com.google.android.material.textfield.TextInputEditText;
+
+import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -32,6 +37,8 @@ public class LoginActivity extends AppCompatActivity {
     APIInterface apiInterface;
 
     LoadingDialog loadingDialog;
+
+    int counter = 4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,8 +87,39 @@ public class LoginActivity extends AppCompatActivity {
 
                             else{
 
-                                Toast.makeText(LoginActivity.this, vipMowdel.getMessage(), Toast.LENGTH_SHORT).show();
-                                loadingDialog.dismissDialog();
+                                if (counter == 0){
+
+                                    loginBtn.setEnabled(false);
+                                    int total_time = 10000;
+                                    int interval = 1000;
+
+                                    loadingDialog.dismissDialog();
+
+                                    new CountDownTimer(total_time, interval) {
+
+                                        public void onTick(long millisUntilFinished) {
+                                            //
+                                        }
+
+                                        public void onFinish() {
+                                            loginBtn.setEnabled(true);
+                                            counter = 4;
+                                        }
+                                    }.start();
+
+                                }
+
+                                else{
+
+                                    Toast.makeText(LoginActivity.this, vipMowdel.getMessage(), Toast.LENGTH_SHORT).show();
+                                    loadingDialog.dismissDialog();
+
+                                    counter--;
+
+                                }
+
+
+
 
                             }
                         }

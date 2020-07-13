@@ -304,7 +304,7 @@ public class LocationHistoryReportFragment extends Fragment {
                     latitudeCoord[i] = coordinateLatitudeMowdelList.get(i).getRtcLatitude();
 
                 }
-                globalLatitude = new String[10];
+                globalLatitude = new String[latitudeCoord.length];
                 for (int i=0; i<latitudeCoord.length; i++){
                     globalLatitude[i] = latitudeCoord[i];
                 }
