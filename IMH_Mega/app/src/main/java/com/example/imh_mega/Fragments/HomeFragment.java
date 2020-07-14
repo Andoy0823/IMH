@@ -81,7 +81,6 @@ public class HomeFragment extends Fragment {
 
         apiInterface = ApiClient.getAPIClient().create(APIInterface.class);
 
-
         riderNameList = new ArrayList<>();
 
         //AutoCompleteTextView
@@ -262,10 +261,8 @@ public class HomeFragment extends Fragment {
 
                     }
                 });
-
             }
         });
-
     }
 
     public void hideSoftKeyboard(Activity activity){

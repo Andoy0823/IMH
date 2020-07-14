@@ -18,15 +18,32 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.imh_mega.Fragments.Models.autoCompleteModel;
 import com.example.imh_mega.R;
+import com.example.imh_mega.Retrofit.APIInterface;
+import com.example.imh_mega.Retrofit.ApiClient;
+
+import java.lang.reflect.Array;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class IncidentReportFragment extends Fragment{
 
     NavController navController;
-    Spinner spinnerReportType;
+    Spinner spinnerReportType, spinnerChooseDate;
     Button btnPlotIncident;
     TextView txtViewIncidentLat, txtViewIncidentLong, txtViewHospitalLoc, txtViewPoliceLoc;
+
+    APIInterface apiInterface;
+
+    ArrayList<String> dateList;
 
     public IncidentReportFragment() {
         // Required empty public constructor
@@ -50,8 +67,16 @@ public class IncidentReportFragment extends Fragment{
         txtViewHospitalLoc = view.findViewById(R.id.txtViewIncidentHospitalID);
         txtViewPoliceLoc = view.findViewById(R.id.txtViewIncidentPoliceID);
         spinnerReportType = view.findViewById(R.id.spinnerReportTypeID);
+        spinnerChooseDate = view.findViewById(R.id.spinnerDateIncidentChooserID);
 
+        dateList = new ArrayList<>();
 
+        apiInterface = ApiClient.getAPIClient().create(APIInterface.class);
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        String dattebayo = simpleDateFormat.format(new Date());
+
+        Toast.makeText(getActivity(), dattebayo, Toast.LENGTH_SHORT).show();
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(), R.array.reportTypes, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -78,6 +103,8 @@ public class IncidentReportFragment extends Fragment{
             }
         });
 
+        getDates();
+
         btnPlotIncident.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -89,6 +116,41 @@ public class IncidentReportFragment extends Fragment{
                 action.setPlotAllHospital(false);
 
                 navController.navigate(action);
+            }
+        });
+
+    }
+
+    private void getDates(){
+
+        Call<List<autoCompleteModel>> listCall = apiInterface.getRiderNames();
+
+        listCall.enqueue(new Callback<List<autoCompleteModel>>() {
+            @Override
+            public void onResponse(Call<List<autoCompleteModel>> call, Response<List<autoCompleteModel>> response) {
+                if(!response.isSuccessful()){
+                    Toast.makeText(getActivity(), "Hindi Tama", Toast.LENGTH_SHORT).show();
+                }
+
+                List<autoCompleteModel> autoCompleteMowdelList = response.body();
+
+                for (autoCompleteModel autoCompleteModel : autoCompleteMowdelList){
+
+                    String datebayow = "";
+
+                    datebayow += autoCompleteModel.getRiderFullName();
+
+                    dateList.add(datebayow);
+                }
+                ArrayAdapter<String> newAdepter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, dateList);
+
+                spinnerChooseDate.setAdapter(newAdepter);
+
+            }
+
+            @Override
+            public void onFailure(Call<List<autoCompleteModel>> call, Throwable t) {
+                Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
 

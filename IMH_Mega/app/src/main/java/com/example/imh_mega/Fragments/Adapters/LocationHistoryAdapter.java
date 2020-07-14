@@ -38,12 +38,11 @@ public class LocationHistoryAdapter extends RecyclerView.Adapter<LocationHistory
     @Override
     public void onBindViewHolder(@NonNull LocationHistoryAdapter.ViewHolder holder, int position) {
 
-        holder.txtTimeView.setText("Time: " + spinnerMowdelArrayList.get(position).getRtcTime());
-        holder.txtDateView.setText("Date: " + spinnerMowdelArrayList.get(position).getRtcDate());
+        holder.txtTimeView.setText("Time: " + spinnerMowdelArrayList.get(position).getRtcTimestamp());
         holder.txtLatView.setText("Latitude: " + spinnerMowdelArrayList.get(position).getRtcLatitude());
         holder.txtLongView.setText("Longitude: " + spinnerMowdelArrayList.get(position).getRtcLongitude());
         holder.txtRtc.setText("ID: " + spinnerMowdelArrayList.get(position).getRtcID());
-        holder.txtDivision.setText("-----------------------------------------------------------");
+        holder.txtDivision.setText("");
 
     }
 
@@ -54,13 +53,12 @@ public class LocationHistoryAdapter extends RecyclerView.Adapter<LocationHistory
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 
-        private TextView txtTimeView, txtDateView, txtLatView, txtLongView, txtDivision, txtRtc;
+        private TextView txtTimeView, txtLatView, txtLongView, txtDivision, txtRtc;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             txtTimeView = itemView.findViewById(R.id.txtViewTimeHistoryID);
-            txtDateView = itemView.findViewById(R.id.txtViewDateHistoryID);
             txtLatView = itemView.findViewById(R.id.txtViewLatHistoryID);
             txtLongView = itemView.findViewById(R.id.txtViewLongHistoryID);
             txtDivision = itemView.findViewById(R.id.txtViewDivisionID);

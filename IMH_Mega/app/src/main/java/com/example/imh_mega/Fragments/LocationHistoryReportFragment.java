@@ -145,6 +145,8 @@ public class LocationHistoryReportFragment extends Fragment {
                 getLongCoord();
                 loadingDialog.dismissDialog();
 
+                getLocationHistory();
+
             }
         });
 
@@ -200,7 +202,6 @@ public class LocationHistoryReportFragment extends Fragment {
         locationHistory_recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
 
-
     }
 
     public static String extractNumber(final String str) {
@@ -237,8 +238,6 @@ public class LocationHistoryReportFragment extends Fragment {
                     locationHistoryAdapter = new LocationHistoryAdapter(getActivity(), lowcationHistoryArray);
 
                     locationHistory_recyclerView.setAdapter(locationHistoryAdapter);
-
-                    //Toast.makeText(getActivity(), "Yey", Toast.LENGTH_SHORT).show();
 
                 }
 

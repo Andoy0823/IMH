@@ -18,12 +18,8 @@ public class LocationHistorySpinnerModel {
     private String RtcLongitude;
 
     @Expose
-    @SerializedName("RtcDate")
-    private String RtcDate;
-
-    @Expose
-    @SerializedName("RtcTime")
-    private String RtcTime;
+    @SerializedName("RtcTimestamp")
+    private String RtcTimestamp;
 
     @Expose
     @SerializedName("Message")
@@ -57,20 +53,12 @@ public class LocationHistorySpinnerModel {
         RtcLongitude = rtcLongitude;
     }
 
-    public String getRtcDate() {
-        return RtcDate;
+    public String getRtcTimestamp() {
+        return RtcTimestamp;
     }
 
-    public void setRtcDate(String rtcDate) {
-        RtcDate = rtcDate;
-    }
-
-    public String getRtcTime() {
-        return RtcTime;
-    }
-
-    public void setRtcTime(String rtcTime) {
-        RtcTime = rtcTime;
+    public void setRtcTimestamp(String rtcTimestamp) {
+        RtcTimestamp = rtcTimestamp;
     }
 
     public String getMessage() {
