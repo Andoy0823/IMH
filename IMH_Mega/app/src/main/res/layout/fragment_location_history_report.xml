@@ -61,18 +61,6 @@
             app:layout_constraintTop_toBottomOf="@+id/locationHistoryRecyclerView"
             app:layout_constraintVertical_bias="0.813" />
 
-        <Button
-            android:id="@+id/btnLocationHistoryUpdateID"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="Update Location"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.497"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btnPlotHistoryLocID" />
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/locationHistoryRecyclerView"
             android:layout_width="340dp"

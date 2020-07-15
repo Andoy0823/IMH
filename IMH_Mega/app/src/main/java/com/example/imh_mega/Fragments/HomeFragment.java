@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,6 +59,8 @@ public class HomeFragment extends Fragment {
 
     APIInterface apiInterface;
 
+    private Handler riderHandler = new Handler();
+
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -77,7 +80,6 @@ public class HomeFragment extends Fragment {
 
         navController = Navigation.findNavController(view);
         btnPlotToMaps = view.findViewById(R.id.btnPlotToMapsID);
-        btnUpdateLoc = view.findViewById(R.id.btnUpdateLocID);
 
         apiInterface = ApiClient.getAPIClient().create(APIInterface.class);
 
@@ -147,120 +149,71 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        btnUpdateLoc.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-
-                Call<List<searchRiderModel>> updateLocationCall = apiInterface.getInformation();
-
-                loadingDialog.startLoadingDialog();
-
-                updateLocationCall.enqueue(new Callback<List<searchRiderModel>>() {
-                    @Override
-                    public void onResponse(Call<List<searchRiderModel>> call, Response<List<searchRiderModel>> response) {
-
-                        if(!response.isSuccessful()){
-
-                            Toast.makeText(getActivity(), response.code(), Toast.LENGTH_SHORT).show();
-
-                        }
-
-                        String errorCheckValue = autoTextValue.getText().toString().trim();
-
-                        if (errorCheckValue.equals("")){
-
-                            Toast.makeText(getActivity(), "No value detected", Toast.LENGTH_SHORT).show();
-
-                        }
-
-                        else {
-
-                            List<searchRiderModel> updateModelList = response.body();
-
-                            for (searchRiderModel updateRiderMowdel : updateModelList){
-
-                                if (updateRiderMowdel.getRiderFullName().equals(errorCheckValue)){
-
-                                    textViewRider.setText(updateRiderMowdel.getRiderID());
-                                    textViewLat.setText(updateRiderMowdel.getRtcLatitude());
-                                    textViewLong.setText(updateRiderMowdel.getRtcLongitude());
-
-                                }
-
-                                Latitude = updateRiderMowdel.getRtcLatitude();
-                                Longitude = updateRiderMowdel.getRtcLongitude();
-
-                            }
-
-                        }
-                        loadingDialog.dismissDialog();
-                    }
-
-                    @Override
-                    public void onFailure(Call<List<searchRiderModel>> call, Throwable t) {
-
-
-                        Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
-                        loadingDialog.dismissDialog();
-                    }
-                });
-
-            }
-        });
-
         searchRiderButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 hideSoftKeyboard(getActivity());
-                Call<List<searchRiderModel>> riderInformationCall = apiInterface.getInformation();
+                getRiderLocation();
+                riderRunnable.run();
+            }
+        });
 
-                riderInformationCall.enqueue(new Callback<List<searchRiderModel>>() {
-                    @Override
-                    public void onResponse(Call<List<searchRiderModel>> call, Response<List<searchRiderModel>> response) {
+    }
 
-                        if(!response.isSuccessful()){
+    private Runnable riderRunnable = new Runnable() {
+        @Override
+        public void run() {
+            getRiderLocation();
+            riderHandler.postDelayed(this, 5000);
+        }
+    };
 
-                            Toast.makeText(getActivity(), response.code(), Toast.LENGTH_SHORT).show();
+    private void getRiderLocation(){
+        Call<List<searchRiderModel>> riderInformationCall = apiInterface.getInformation();
 
-                        }
+        riderInformationCall.enqueue(new Callback<List<searchRiderModel>>() {
+            @Override
+            public void onResponse(Call<List<searchRiderModel>> call, Response<List<searchRiderModel>> response) {
 
-                        List<searchRiderModel> riderModelList = response.body();
+                if(!response.isSuccessful()){
 
-                        String textViewValue = autoTextValue.getText().toString().trim();
+                    Toast.makeText(getActivity(), response.code(), Toast.LENGTH_SHORT).show();
 
-                        if (textViewValue.equals("")){
+                }
 
-                            Toast.makeText(getActivity(), "No value detected", Toast.LENGTH_SHORT).show();
+                List<searchRiderModel> riderModelList = response.body();
 
-                        }
+                String textViewValue = autoTextValue.getText().toString().trim();
 
-                        else{
+                if (textViewValue.equals("")){
 
-                            for (searchRiderModel searchRiderMowdel : riderModelList){
+                    Toast.makeText(getActivity(), "No value detected", Toast.LENGTH_SHORT).show();
 
-                                if (searchRiderMowdel.getRiderFullName().equals(textViewValue)){
+                }
 
-                                    textViewRider.setText(searchRiderMowdel.getRiderID());
-                                    textViewLat.setText(searchRiderMowdel.getRtcLatitude());
-                                    textViewLong.setText(searchRiderMowdel.getRtcLongitude());
+                else{
 
-                                }
+                    for (searchRiderModel searchRiderMowdel : riderModelList){
 
-                            }
+                        if (searchRiderMowdel.getRiderFullName().equals(textViewValue)){
+
+                            textViewRider.setText(searchRiderMowdel.getRiderID());
+                            textViewLat.setText(searchRiderMowdel.getRtcLatitude());
+                            textViewLong.setText(searchRiderMowdel.getRtcLongitude());
 
                         }
 
                     }
 
-                    @Override
-                    public void onFailure(Call<List<searchRiderModel>> call, Throwable t) {
+                }
 
-                        Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
 
-                    }
-                });
+            @Override
+            public void onFailure(Call<List<searchRiderModel>> call, Throwable t) {
+
+                Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
+
             }
         });
     }

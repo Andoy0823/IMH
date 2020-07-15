@@ -10,6 +10,7 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,7 +46,6 @@ public class LocationHistoryReportFragment extends Fragment {
     NavController navController;
     Spinner spinnerLocReportType;
     Button btnPlotReport;
-    @BindView(R.id.btnLocationHistoryUpdateID) Button historyUpdateButton;
 
     APIInterface apiInterface;
 
@@ -64,7 +64,9 @@ public class LocationHistoryReportFragment extends Fragment {
     String globalLongitude[];
 
     LoadingDialog loadingDialog;
-    /////////////////////////////////////////////////////////////////////////////////
+
+    //Refresh RecyclerView
+    private Handler refreshRecyclerViewHandler = new Handler();
 
 
     public LocationHistoryReportFragment() {
@@ -127,28 +129,13 @@ public class LocationHistoryReportFragment extends Fragment {
             }
         });
 
-        getLocationHistory();
+        refreshRunnable.run();
 
         //Initialize Latitude and Longitude to be plotted.
         loadingDialog.startLoadingDialog();
         getLatCoord();
         getLongCoord();
         loadingDialog.dismissDialog();
-
-        //Location History Report
-        historyUpdateButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                loadingDialog.startLoadingDialog();
-                getLatCoord();
-                getLongCoord();
-                loadingDialog.dismissDialog();
-
-                getLocationHistory();
-
-            }
-        });
 
         //setBtnPlotReport();
 
@@ -204,7 +191,8 @@ public class LocationHistoryReportFragment extends Fragment {
 
     }
 
-    public static String extractNumber(final String str) {
+
+    /* public static String extractNumber(final String str) {
 
         if(str == null || str.isEmpty()) return "";
 
@@ -221,7 +209,7 @@ public class LocationHistoryReportFragment extends Fragment {
         }
 
         return sb.toString();
-    }
+    } */
 
     private void getLocationHistory(){
 
@@ -359,5 +347,13 @@ public class LocationHistoryReportFragment extends Fragment {
         });
 
     }
+
+    private Runnable refreshRunnable = new Runnable() {
+        @Override
+        public void run() {
+            getLocationHistory();
+            refreshRecyclerViewHandler.postDelayed(this, 1000);
+        }
+    };
 
 }

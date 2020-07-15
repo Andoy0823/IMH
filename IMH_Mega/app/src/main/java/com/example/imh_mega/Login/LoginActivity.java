@@ -124,7 +124,7 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onFailure(Call<VipModel> call, Throwable t) {
 
-                        Toast.makeText(LoginActivity.this, "Error", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LoginActivity.this, "No Internet Connection Detected", Toast.LENGTH_SHORT).show();
                         loadingDialog.dismissDialog();
                     }
                 });

@@ -2,6 +2,7 @@ package com.example.imh_mega.Retrofit;
 
 import com.example.imh_mega.Fragments.Models.CoordinateLatitudeModel;
 import com.example.imh_mega.Fragments.Models.CoordinateLongitudeModel;
+import com.example.imh_mega.Fragments.Models.IncidentCheckerModel;
 import com.example.imh_mega.Fragments.Models.LocationHistorySpinnerModel;
 import com.example.imh_mega.Fragments.Models.autoCompleteModel;
 import com.example.imh_mega.Fragments.Models.searchRiderModel;
@@ -47,5 +48,8 @@ public interface APIInterface {
 
     @GET("app_locationhistorylongitude.php")
     Call<List<CoordinateLongitudeModel>> getLongitudeList();
+
+    @GET("app_incidentChecker.php")
+    Call<List<IncidentCheckerModel>> checkIncident();
 
 }

@@ -10,12 +10,26 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.widget.Toast;
 
+import com.example.imh_mega.Fragments.Models.IncidentCheckerModel;
+import com.example.imh_mega.Retrofit.APIInterface;
+import com.example.imh_mega.Retrofit.ApiClient;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.textfield.TextInputEditText;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
     BottomNavigationView bottomNavigationView;
+
+    APIInterface apiInterface;
+
+    int a, b, counter = 0;
 
     double allHospitalLat[] = {14.426269, 14.399959, 14.376212, 14.373747, 14.395625, 14.405804, 14.410574, 14.429737};
     double allHospitalLong[] = {120.946531, 120.939514, 120.938735, 120.979819, 120.987978, 120.976867, 120.976085, 121.003543};
@@ -40,11 +54,15 @@ public class MainActivity extends AppCompatActivity {
     int startScanner=10;
     Boolean scanning = true;
 
+    //Array Check Loop
+    private Handler arrayCheckHandler = new Handler();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        apiInterface = ApiClient.getAPIClient().create(APIInterface.class);
 
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         NavController navController = Navigation.findNavController(this,R.id.nav_host_fragment);
@@ -131,6 +149,8 @@ public class MainActivity extends AppCompatActivity {
 
         handler.post(runnable);
 
+        arrayCheckRunnable.run();
+
         /*
         //Static Value of Incident
         initialLocation.setLatitude(14.402138);
@@ -177,4 +197,47 @@ public class MainActivity extends AppCompatActivity {
                 + shortestPoliceFromIncidentFinal + "km. At " + shortestPoliceStr, Toast.LENGTH_LONG).show();
         */
     }
+
+    private Runnable arrayCheckRunnable = new Runnable() {
+        @Override
+        public void run() {
+
+            Call<List<IncidentCheckerModel>> incidentModelCall = apiInterface.checkIncident();
+
+            incidentModelCall.enqueue(new Callback<List<IncidentCheckerModel>>() {
+                @Override
+                public void onResponse(Call<List<IncidentCheckerModel>> call, Response<List<IncidentCheckerModel>> response) {
+
+                    if (!response.isSuccessful()){
+                        Toast.makeText(MainActivity.this, response.code(), Toast.LENGTH_SHORT).show();
+                    }
+
+                    List<IncidentCheckerModel> incidentCheckerMowdelList = response.body();
+
+                    if (counter == 0){
+                        a = incidentCheckerMowdelList.size();
+                        b = incidentCheckerMowdelList.size();
+                        counter++;
+                    }
+                    if (counter == 1){
+                        a = incidentCheckerMowdelList.size();
+                        if (a > b){
+                            Toast.makeText(MainActivity.this, "Array Size: " + a + " > " + b, Toast.LENGTH_SHORT).show();
+                        }
+                        if (a == b){
+                            Toast.makeText(MainActivity.this, "Array Size: " + a + " = " + b, Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<List<IncidentCheckerModel>> call, Throwable t) {
+                    Toast.makeText(MainActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            arrayCheckHandler.postDelayed(this, 3000);
+        }
+    };
+
 }
