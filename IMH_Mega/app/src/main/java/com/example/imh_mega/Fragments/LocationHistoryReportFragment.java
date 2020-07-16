@@ -352,7 +352,7 @@ public class LocationHistoryReportFragment extends Fragment {
         @Override
         public void run() {
             getLocationHistory();
-            refreshRecyclerViewHandler.postDelayed(this, 1000);
+            refreshRecyclerViewHandler.postDelayed(this, 5000);
         }
     };
 

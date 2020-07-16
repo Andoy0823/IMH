@@ -223,7 +223,13 @@ public class MainActivity extends AppCompatActivity {
                         a = incidentCheckerMowdelList.size();
                         if (a > b){
                             Toast.makeText(MainActivity.this, "Array Size: " + a + " > " + b, Toast.LENGTH_SHORT).show();
+                            counter = 0;
                         }
+
+                        if (a < b){
+                            counter = 0;
+                        }
+
                         if (a == b){
                             Toast.makeText(MainActivity.this, "Array Size: " + a + " = " + b, Toast.LENGTH_SHORT).show();
                         }
