@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.imh_mega.Fragments.Models.autoCompleteModel;
+import com.example.imh_mega.Fragments.Models.incidentInitialModel;
 import com.example.imh_mega.R;
 import com.example.imh_mega.Retrofit.APIInterface;
 import com.example.imh_mega.Retrofit.ApiClient;
@@ -45,6 +47,10 @@ public class IncidentReportFragment extends Fragment{
 
     ArrayList<String> dateList;
 
+    String spinnerViewValue;
+
+    Handler incidentHandler = new Handler();
+
     public IncidentReportFragment() {
         // Required empty public constructor
     }
@@ -70,6 +76,8 @@ public class IncidentReportFragment extends Fragment{
         spinnerChooseDate = view.findViewById(R.id.spinnerDateIncidentChooserID);
 
         dateList = new ArrayList<>();
+
+        spinnerViewValue = "";
 
         apiInterface = ApiClient.getAPIClient().create(APIInterface.class);
 
@@ -104,6 +112,7 @@ public class IncidentReportFragment extends Fragment{
         });
 
         getDates();
+        getCoords();
 
         btnPlotIncident.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -123,37 +132,78 @@ public class IncidentReportFragment extends Fragment{
 
     private void getDates(){
 
-        Call<List<autoCompleteModel>> listCall = apiInterface.getRiderNames();
+        Call<List<incidentInitialModel>> listCall = apiInterface.getInitialIncident();
 
-        listCall.enqueue(new Callback<List<autoCompleteModel>>() {
+        listCall.enqueue(new Callback<List<incidentInitialModel>>() {
             @Override
-            public void onResponse(Call<List<autoCompleteModel>> call, Response<List<autoCompleteModel>> response) {
-                if(!response.isSuccessful()){
-                    Toast.makeText(getActivity(), "Hindi Tama", Toast.LENGTH_SHORT).show();
+            public void onResponse(Call<List<incidentInitialModel>> call, Response<List<incidentInitialModel>> response) {
+                if (!response.isSuccessful()){
+                    Toast.makeText(getActivity(), response.code(), Toast.LENGTH_SHORT).show();
                 }
 
-                List<autoCompleteModel> autoCompleteMowdelList = response.body();
+                List<incidentInitialModel> incidentInitialMowdelList = response.body();
 
-                for (autoCompleteModel autoCompleteModel : autoCompleteMowdelList){
+                for (incidentInitialModel incidentInitialModel : incidentInitialMowdelList){
 
-                    String datebayow = "";
+                    String timeStamps = "";
 
-                    datebayow += autoCompleteModel.getRiderFullName();
+                    timeStamps += incidentInitialModel.getTimestamp();
 
-                    dateList.add(datebayow);
+                    dateList.add(timeStamps);
                 }
-                ArrayAdapter<String> newAdepter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, dateList);
 
-                spinnerChooseDate.setAdapter(newAdepter);
+                ArrayAdapter<String> timeAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, dateList);
+                spinnerChooseDate.setAdapter(timeAdapter);
 
             }
 
             @Override
-            public void onFailure(Call<List<autoCompleteModel>> call, Throwable t) {
+            public void onFailure(Call<List<incidentInitialModel>> call, Throwable t) {
                 Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
 
+    }
+
+    private void getCoords(){
+
+        Call<List<incidentInitialModel>> incidentInitialCall = apiInterface.getInitialIncident();
+
+        incidentInitialCall.enqueue(new Callback<List<incidentInitialModel>>() {
+            @Override
+            public void onResponse(Call<List<incidentInitialModel>> call, Response<List<incidentInitialModel>> response) {
+                if (!response.isSuccessful()){
+                    Toast.makeText(getActivity(), response.code(), Toast.LENGTH_SHORT).show();
+                }
+
+                List<incidentInitialModel> incidentInitialMowdelList = response.body();
+
+                spinnerChooseDate.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        String text = parent.getItemAtPosition(position).toString();
+
+                        for (incidentInitialModel incidentInitialModel : incidentInitialMowdelList){
+                                if (incidentInitialModel.getTimestamp().equals(text)){
+                                    txtViewIncidentLat.setText(incidentInitialModel.getLatitude());
+                                    txtViewIncidentLong.setText(incidentInitialModel.getLongitude());
+                                }
+                        }
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+                        Toast.makeText(getActivity(), "Pick a date", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+            }
+
+            @Override
+            public void onFailure(Call<List<incidentInitialModel>> call, Throwable t) {
+                Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
 }

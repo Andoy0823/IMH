@@ -227,6 +227,7 @@ public class MainActivity extends AppCompatActivity {
                         }
 
                         if (a < b){
+                            Toast.makeText(MainActivity.this, "Row deleted", Toast.LENGTH_SHORT).show();
                             counter = 0;
                         }
 
