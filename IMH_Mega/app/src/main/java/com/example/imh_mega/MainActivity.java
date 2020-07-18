@@ -49,6 +49,8 @@ public class MainActivity extends AppCompatActivity {
 
     Location initialLocation, hospitalLocation, policeLocation;
 
+    String lawtitude, lowgitude;
+
     Handler handler;
     Runnable runnable;
     int startScanner=10;
@@ -223,6 +225,19 @@ public class MainActivity extends AppCompatActivity {
                         a = incidentCheckerMowdelList.size();
                         if (a > b){
                             Toast.makeText(MainActivity.this, "Array Size: " + a + " > " + b, Toast.LENGTH_SHORT).show();
+
+
+
+                            for (IncidentCheckerModel incidentCheckerModel : incidentCheckerMowdelList){
+
+                                lawtitude = incidentCheckerModel.getLatitude();
+                                lowgitude = incidentCheckerModel.getLongitude();
+
+                            }
+
+                            Toast.makeText(MainActivity.this, "Latitude: " + lawtitude + " Longitude: " + lowgitude, Toast.LENGTH_SHORT).show();
+
+
                             counter = 0;
                         }
 
