@@ -25,7 +25,7 @@
         <TextView
             android:id="@+id/txtViewIncidentPoliceID"
             android:layout_width="236dp"
-            android:layout_height="28dp"
+            android:layout_height="115dp"
             android:layout_marginTop="44dp"
             android:text=""
             android:textSize="20sp"
@@ -142,13 +142,13 @@
             android:id="@+id/btnPlotIncidentLocID"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="36dp"
-            android:layout_marginTop="44dp"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="108dp"
+            android:backgroundTint="@color/colorAccent"
             android:text="Plot Incident Location"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView18"
-            android:backgroundTint="@color/colorAccent"/>
+            app:layout_constraintTop_toBottomOf="@+id/textView18" />
 
         <TextView
             android:id="@+id/txtViewIncidentHospitalID"

@@ -1,5 +1,6 @@
 package com.example.imh_mega.Fragments;
 
+import android.location.Location;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -42,12 +43,31 @@ public class IncidentReportFragment extends Fragment{
     Spinner spinnerReportType, spinnerChooseDate;
     Button btnPlotIncident;
     TextView txtViewIncidentLat, txtViewIncidentLong, txtViewHospitalLoc, txtViewPoliceLoc;
+    Location incidentLocation, hospitalLocation, policeLocation;
 
     APIInterface apiInterface;
 
     ArrayList<String> dateList;
 
     String spinnerViewValue;
+
+    double allHospitalLat[] = {14.426269, 14.399959, 14.376212, 14.373747, 14.395625, 14.405804, 14.410574, 14.429737};
+    double allHospitalLong[] = {120.946531, 120.939514, 120.938735, 120.979819, 120.987978, 120.976867, 120.976085, 121.003543};
+
+    double allPoliceLat[] = {14.388826, 14.382097, 14.373063, 14.376789, 14.350296, 14.325721, 14.422035, 14.42297};
+    double allPoliceLong[] = {120.984376, 120.988721, 120.980103, 120.9388, 120.937898, 120.94076, 120.94639, 120.941584};
+
+    double shortestHospitalFromIncident, shortestHospitalFromIncidentFinal, shortestPoliceFromIncident
+            , shortestPoliceFromIncidentFinal, tempDistanceHospital, tempDistancePolice;
+
+    String shortestHospitalStr, shortestPoliceStr, shortestHospitalContact, shortestPoliceContact;
+
+    String hospitalName[] = {"Medical Center Imus","City of Imus Doctors Hospital", "Medicard Cavite Clinic", "Metrosouth Medical Center", "San Agustin Medical Clinic", "Southeast Asian Medical Center",
+            "Molino Doctors Hospital", "Las Pinas City Medical Center"};
+
+    String policeName[] = {"Bacoor City Police - Camella Springeville", "Bacoor City Community Police - Daang Hari", "Molino IV PNP Sub-Station - Molino Rd.", "Police Community Precinct 3 - EAH, IMUS"
+            , "Police Community Precinct 3 - EAH, IMUS", "Police Station - Waltermart, DASMARINAS", "Police Station - Buhay Na Tubig, IMUS"
+            , "Imus Police Station - Nueno Ave., IMUS"};
 
     Handler incidentHandler = new Handler();
 
@@ -187,6 +207,10 @@ public class IncidentReportFragment extends Fragment{
                                 if (incidentInitialModel.getTimestamp().equals(text)){
                                     txtViewIncidentLat.setText(incidentInitialModel.getLatitude());
                                     txtViewIncidentLong.setText(incidentInitialModel.getLongitude());
+                                    Double incLat = Double.parseDouble(txtViewIncidentLat.getText().toString());
+                                    Double incLong = Double.parseDouble(txtViewIncidentLong.getText().toString());
+                                    txtViewHospitalLoc.setText(getNearestHospital(incLat, incLong));
+                                    txtViewPoliceLoc.setText(getNearestPolice(incLat, incLong));
                                 }
                         }
                     }
@@ -204,6 +228,93 @@ public class IncidentReportFragment extends Fragment{
                 Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    public String getNearestHospital(Double incidentLatitude, Double incidentLongitude){
+        incidentLocation = new Location("");
+        hospitalLocation = new Location("");
+        policeLocation = new Location("");
+
+        incidentLocation.setLatitude(incidentLatitude);
+        incidentLocation.setLongitude(incidentLongitude);
+
+        for (int i=0; i<allHospitalLat.length; i++){
+
+            hospitalLocation.setLatitude(allHospitalLat[i]);
+            hospitalLocation.setLongitude(allHospitalLong[i]);
+
+            policeLocation.setLatitude(allPoliceLat[i]);
+            policeLocation.setLongitude(allPoliceLong[i]);
+
+            tempDistanceHospital = incidentLocation.distanceTo(hospitalLocation);
+            tempDistancePolice = incidentLocation.distanceTo(policeLocation);
+            if (i == 0){
+                shortestHospitalFromIncident = tempDistanceHospital;
+                shortestHospitalStr = hospitalName[i];
+
+                shortestPoliceFromIncident = tempDistancePolice;
+                shortestPoliceStr = policeName[i];
+            }
+            else {
+                if (tempDistanceHospital < shortestHospitalFromIncident){
+
+                    shortestHospitalFromIncident = tempDistanceHospital;
+                    shortestHospitalStr = hospitalName[i];
+                }
+
+                if (tempDistancePolice < shortestPoliceFromIncident){
+
+                    shortestPoliceFromIncident = tempDistancePolice;
+                    shortestPoliceStr = policeName[i];
+                }
+            }
+        }
+
+        return shortestHospitalStr;
+
+    }
+
+    public String getNearestPolice(Double incidentLatitude, Double incidentLongitude){
+        incidentLocation = new Location("");
+        hospitalLocation = new Location("");
+        policeLocation = new Location("");
+
+        incidentLocation.setLatitude(incidentLatitude);
+        incidentLocation.setLongitude(incidentLongitude);
+
+        for (int i=0; i<allHospitalLat.length; i++){
+
+            hospitalLocation.setLatitude(allHospitalLat[i]);
+            hospitalLocation.setLongitude(allHospitalLong[i]);
+
+            policeLocation.setLatitude(allPoliceLat[i]);
+            policeLocation.setLongitude(allPoliceLong[i]);
+
+            tempDistanceHospital = incidentLocation.distanceTo(hospitalLocation);
+            tempDistancePolice = incidentLocation.distanceTo(policeLocation);
+            if (i == 0){
+                shortestHospitalFromIncident = tempDistanceHospital;
+                shortestHospitalStr = hospitalName[i];
+
+                shortestPoliceFromIncident = tempDistancePolice;
+                shortestPoliceStr = policeName[i];
+            }
+            else {
+                if (tempDistanceHospital < shortestHospitalFromIncident){
+
+                    shortestHospitalFromIncident = tempDistanceHospital;
+                    shortestHospitalStr = hospitalName[i];
+                }
+
+                if (tempDistancePolice < shortestPoliceFromIncident){
+
+                    shortestPoliceFromIncident = tempDistancePolice;
+                    shortestPoliceStr = policeName[i];
+                }
+            }
+        }
+
+        return shortestPoliceStr;
     }
 
 }
