@@ -105,7 +105,7 @@ public class IncidentReportFragment extends Fragment{
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         String dattebayo = simpleDateFormat.format(new Date());
 
-        Toast.makeText(getActivity(), dattebayo, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getActivity(), dattebayo, Toast.LENGTH_SHORT).show();
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(), R.array.reportTypes, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

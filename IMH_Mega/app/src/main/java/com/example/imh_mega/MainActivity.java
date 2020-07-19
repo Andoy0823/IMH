@@ -1,17 +1,28 @@
 package com.example.imh_mega;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
+import android.Manifest;
+import android.app.Dialog;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.location.Location;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
+import android.telephony.SmsManager;
+import android.view.View;
+import android.view.Window;
+import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.imh_mega.Fragments.Models.IncidentCheckerModel;
@@ -51,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
     double shortestHospitalFromIncident, shortestHospitalFromIncidentFinal, shortestPoliceFromIncident, shortestPoliceFromIncidentFinal, tempDistanceHospital, tempDistancePolice;
     String shortestHospitalStr, shortestPoliceStr, shortestHospitalContact, shortestPoliceContact;
 
-    Location initialLocation, hospitalLocation, policeLocation;
+    Location initialLocation, hospitalLocation, policeLocation, incidentLocation;
 
     String lawtitude, lowgitude;
 
@@ -70,6 +81,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.SEND_SMS}, PackageManager.PERMISSION_GRANTED);
 
         apiInterface = ApiClient.getAPIClient().create(APIInterface.class);
 
@@ -100,65 +113,6 @@ public class MainActivity extends AppCompatActivity {
          */
 
         handler = new Handler();
-        runnable = new Runnable() {
-            @Override
-            public void run() {
-
-                //Scanning every 5 Seconds
-                if (startScanner%5 == 0){
-                    //Static Value of Incident
-                    initialLocation.setLatitude(14.402138);
-                    initialLocation.setLongitude(120.989708);
-
-                    //Logic for Shortest Distance of Hospital and Police.
-                    for (int i=0; i<allHospitalLat.length; i++){
-
-                        hospitalLocation.setLatitude(allHospitalLat[i]);
-                        hospitalLocation.setLongitude(allHospitalLong[i]);
-
-                        policeLocation.setLatitude(allPoliceLat[i]);
-                        policeLocation.setLongitude(allPoliceLong[i]);
-
-                        tempDistanceHospital = initialLocation.distanceTo(hospitalLocation);
-                        tempDistancePolice = initialLocation.distanceTo(policeLocation);
-                        if (i == 0){
-                            shortestHospitalFromIncident = tempDistanceHospital;
-                            shortestHospitalStr = hospitalName[i];
-
-                            shortestPoliceFromIncident = tempDistancePolice;
-                            shortestPoliceStr = policeName[i];
-                        }
-                        else {
-                            if (tempDistanceHospital < shortestHospitalFromIncident){
-
-                                shortestHospitalFromIncident = tempDistanceHospital;
-                                shortestHospitalStr = hospitalName[i];
-                            }
-
-                            if (tempDistancePolice < shortestPoliceFromIncident){
-
-                                shortestPoliceFromIncident = tempDistancePolice;
-                                shortestPoliceStr = policeName[i];
-                            }
-                        }
-                    }
-
-                    //Use this as final value
-                    shortestHospitalFromIncidentFinal = shortestHospitalFromIncident / 1000;
-                    shortestPoliceFromIncidentFinal = shortestPoliceFromIncident / 1000;
-
-                    /*
-                    Toast.makeText(MainActivity.this, "Shortest Distance is " + shortestHospitalFromIncidentFinal + " km. At " + shortestHospitalStr + ". And Police is "
-                            + shortestPoliceFromIncidentFinal + "km. At " + shortestPoliceStr, Toast.LENGTH_SHORT).show();
-
-                     */
-                }
-                startScanner--;
-                handler.postDelayed(this, 1000);
-            }
-        };
-
-        handler.post(runnable);
 
         arrayCheckRunnable.run();
 
@@ -210,10 +164,59 @@ public class MainActivity extends AppCompatActivity {
         */
     }
 
-    public void startAlarm(){
+    public void startAlarm(String latitude, String longitude, String hospital, String police, String hospitalNumber, String policeNumber){
+        //ALARM SOUND
         alarmMP = MediaPlayer.create(this, R.raw.thesisalarmfinal);
-
         alarmMP.start();
+
+        //ALARM TEXT TO HOSPITAL
+        SmsManager smsManager = SmsManager.getDefault();
+        String txtMessage = "URGENT HOSPITAL! Incident Detected! Coordinates at: " + latitude + ", " + longitude ;
+        smsManager.sendTextMessage(hospitalNumber, null, txtMessage, null, null);
+
+
+        //ALARM TEXT TO POLICE
+        SmsManager smsManagerPolice = SmsManager.getDefault();
+        String txtPolice = "URGENT POLICE! Incident Detected! Coordinates at: " + latitude + ", " + longitude ;
+        smsManagerPolice.sendTextMessage(policeNumber, null, txtPolice, null, null);
+
+        Toast.makeText(MainActivity.this, "Message Sent to " + hospitalNumber + ", " + policeNumber, Toast.LENGTH_SHORT).show();
+
+        //ALARM DIALOG
+        Dialog DialogAlert = new Dialog(MainActivity.this);
+        DialogAlert.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        DialogAlert.setContentView(R.layout.alarm_alert_dialog);
+
+        //Hooks
+        Button btnAlertWaze = DialogAlert.findViewById(R.id.btnAlertWazeID);
+        Button btnAlertBack = DialogAlert.findViewById(R.id.btnAlertBackID);
+        TextView txtViewAlertLat = DialogAlert.findViewById(R.id.txtViewAlertLatitudeID);
+        TextView txtViewAlertLong = DialogAlert.findViewById(R.id.txtViewAlertLongitudeID);
+        TextView txtViewAlertHospital = DialogAlert.findViewById(R.id.txtViewAlertHospitalID);
+        TextView txtViewAlertPolice = DialogAlert.findViewById(R.id.txtViewAlertPoliceID);
+
+        txtViewAlertLat.setText("LATITUDE: " + latitude);
+        txtViewAlertLong.setText("LONGITUDE: " + longitude);
+        txtViewAlertHospital.setText("HOSPITAL: " + hospital);
+        txtViewAlertPolice.setText("POLICE: " + police);
+
+        btnAlertBack.setEnabled(true);
+        btnAlertBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DialogAlert.cancel();
+            }
+        });
+        btnAlertWaze.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String naviWaze = ("waze://?ll="+latitude+","+longitude+"&navigate=yes");
+                Intent intentToWaze = new Intent(Intent.ACTION_VIEW, Uri.parse(naviWaze));
+                startActivity(intentToWaze);
+            }
+        });
+
+        DialogAlert.show();
     }
 
     private Runnable arrayCheckRunnable = new Runnable() {
@@ -239,7 +242,7 @@ public class MainActivity extends AppCompatActivity {
                     if (counter == 1){
                         a = incidentCheckerMowdelList.size();
                         if (a > b){
-                            Toast.makeText(MainActivity.this, "Array Size: " + a + " > " + b, Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(MainActivity.this, "Array Size: " + a + " > " + b, Toast.LENGTH_SHORT).show();
 
 
 
@@ -253,11 +256,19 @@ public class MainActivity extends AppCompatActivity {
                             Toast.makeText(MainActivity.this, "Latitude: " + lawtitude + " Longitude: " + lowgitude, Toast.LENGTH_SHORT).show();
                             if (Build.VERSION.SDK_INT >= 26 ){
                                 vibrator.vibrate(VibrationEffect.createOneShot(7000, VibrationEffect.DEFAULT_AMPLITUDE));
-                                startAlarm();
+                                String nearestHospital = getNearestHospital(Double.parseDouble(lawtitude), Double.parseDouble(lowgitude));
+                                String nearestPolice = getNearestPolice(Double.parseDouble(lawtitude), Double.parseDouble(lowgitude));
+                                String hospitalNumber = getNearestHospitalContact(Double.parseDouble(lawtitude), Double.parseDouble(lowgitude));
+                                String policeNumber = getNearestPoliceContact(Double.parseDouble(lawtitude), Double.parseDouble(lowgitude));
+                                startAlarm(lawtitude, lowgitude, nearestHospital, nearestPolice, hospitalNumber, policeNumber);
                             }
                             else{
                                 vibrator.vibrate(7000);
-                                startAlarm();
+                                String nearestHospital = getNearestHospital(Double.parseDouble(lawtitude), Double.parseDouble(lowgitude));
+                                String nearestPolice = getNearestPolice(Double.parseDouble(lawtitude), Double.parseDouble(lowgitude));
+                                String hospitalNumber = getNearestHospitalContact(Double.parseDouble(lawtitude), Double.parseDouble(lowgitude));
+                                String policeNumber = getNearestPoliceContact(Double.parseDouble(lawtitude), Double.parseDouble(lowgitude));
+                                startAlarm(lawtitude, lowgitude, nearestHospital, nearestPolice, hospitalNumber, policeNumber);
                             }
 
                             counter = 0;
@@ -269,7 +280,7 @@ public class MainActivity extends AppCompatActivity {
                         }
 
                         if (a == b){
-                            Toast.makeText(MainActivity.this, "Array Size: " + a + " = " + b, Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(MainActivity.this, "Array Size: " + a + " = " + b, Toast.LENGTH_SHORT).show();
                         }
                     }
                 }
@@ -284,4 +295,184 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
+    public String getNearestHospital(Double incidentLatitude, Double incidentLongitude){
+        incidentLocation = new Location("");
+        hospitalLocation = new Location("");
+        policeLocation = new Location("");
+
+        incidentLocation.setLatitude(incidentLatitude);
+        incidentLocation.setLongitude(incidentLongitude);
+
+        for (int i=0; i<allHospitalLat.length; i++){
+
+            hospitalLocation.setLatitude(allHospitalLat[i]);
+            hospitalLocation.setLongitude(allHospitalLong[i]);
+
+            policeLocation.setLatitude(allPoliceLat[i]);
+            policeLocation.setLongitude(allPoliceLong[i]);
+
+            tempDistanceHospital = incidentLocation.distanceTo(hospitalLocation);
+            tempDistancePolice = incidentLocation.distanceTo(policeLocation);
+            if (i == 0){
+                shortestHospitalFromIncident = tempDistanceHospital;
+                shortestHospitalStr = hospitalName[i];
+
+                shortestPoliceFromIncident = tempDistancePolice;
+                shortestPoliceStr = policeName[i];
+            }
+            else {
+                if (tempDistanceHospital < shortestHospitalFromIncident){
+
+                    shortestHospitalFromIncident = tempDistanceHospital;
+                    shortestHospitalStr = hospitalName[i];
+                }
+
+                if (tempDistancePolice < shortestPoliceFromIncident){
+
+                    shortestPoliceFromIncident = tempDistancePolice;
+                    shortestPoliceStr = policeName[i];
+                }
+            }
+        }
+
+        return shortestHospitalStr;
+
+    }
+
+    public String getNearestPolice(Double incidentLatitude, Double incidentLongitude){
+        incidentLocation = new Location("");
+        hospitalLocation = new Location("");
+        policeLocation = new Location("");
+
+        incidentLocation.setLatitude(incidentLatitude);
+        incidentLocation.setLongitude(incidentLongitude);
+
+        for (int i=0; i<allHospitalLat.length; i++){
+
+            hospitalLocation.setLatitude(allHospitalLat[i]);
+            hospitalLocation.setLongitude(allHospitalLong[i]);
+
+            policeLocation.setLatitude(allPoliceLat[i]);
+            policeLocation.setLongitude(allPoliceLong[i]);
+
+            tempDistanceHospital = incidentLocation.distanceTo(hospitalLocation);
+            tempDistancePolice = incidentLocation.distanceTo(policeLocation);
+            if (i == 0){
+                shortestHospitalFromIncident = tempDistanceHospital;
+                shortestHospitalStr = hospitalName[i];
+
+                shortestPoliceFromIncident = tempDistancePolice;
+                shortestPoliceStr = policeName[i];
+            }
+            else {
+                if (tempDistanceHospital < shortestHospitalFromIncident){
+
+                    shortestHospitalFromIncident = tempDistanceHospital;
+                    shortestHospitalStr = hospitalName[i];
+                }
+
+                if (tempDistancePolice < shortestPoliceFromIncident){
+
+                    shortestPoliceFromIncident = tempDistancePolice;
+                    shortestPoliceStr = policeName[i];
+                }
+            }
+        }
+
+        return shortestPoliceStr;
+    }
+
+    public String getNearestHospitalContact(Double incidentLatitude, Double incidentLongitude){
+        incidentLocation = new Location("");
+        hospitalLocation = new Location("");
+        policeLocation = new Location("");
+
+        incidentLocation.setLatitude(incidentLatitude);
+        incidentLocation.setLongitude(incidentLongitude);
+
+        for (int i=0; i<allHospitalLat.length; i++){
+
+            hospitalLocation.setLatitude(allHospitalLat[i]);
+            hospitalLocation.setLongitude(allHospitalLong[i]);
+
+            policeLocation.setLatitude(allPoliceLat[i]);
+            policeLocation.setLongitude(allPoliceLong[i]);
+
+            tempDistanceHospital = incidentLocation.distanceTo(hospitalLocation);
+            tempDistancePolice = incidentLocation.distanceTo(policeLocation);
+            if (i == 0){
+                shortestHospitalFromIncident = tempDistanceHospital;
+                shortestHospitalStr = hospitalName[i];
+                shortestHospitalContact = hospitalContact[i];
+
+                shortestPoliceFromIncident = tempDistancePolice;
+                shortestPoliceStr = policeName[i];
+                shortestPoliceContact = policeContact[i];
+            }
+            else {
+                if (tempDistanceHospital < shortestHospitalFromIncident){
+
+                    shortestHospitalFromIncident = tempDistanceHospital;
+                    shortestHospitalStr = hospitalName[i];
+                    shortestHospitalContact = hospitalContact[i];
+                }
+
+                if (tempDistancePolice < shortestPoliceFromIncident){
+
+                    shortestPoliceFromIncident = tempDistancePolice;
+                    shortestPoliceStr = policeName[i];
+                    shortestPoliceContact = policeContact[i];
+                }
+            }
+        }
+
+        return shortestHospitalContact;
+    }
+
+    public String getNearestPoliceContact(Double incidentLatitude, Double incidentLongitude){
+        incidentLocation = new Location("");
+        hospitalLocation = new Location("");
+        policeLocation = new Location("");
+
+        incidentLocation.setLatitude(incidentLatitude);
+        incidentLocation.setLongitude(incidentLongitude);
+
+        for (int i=0; i<allHospitalLat.length; i++){
+
+            hospitalLocation.setLatitude(allHospitalLat[i]);
+            hospitalLocation.setLongitude(allHospitalLong[i]);
+
+            policeLocation.setLatitude(allPoliceLat[i]);
+            policeLocation.setLongitude(allPoliceLong[i]);
+
+            tempDistanceHospital = incidentLocation.distanceTo(hospitalLocation);
+            tempDistancePolice = incidentLocation.distanceTo(policeLocation);
+            if (i == 0){
+                shortestHospitalFromIncident = tempDistanceHospital;
+                shortestHospitalStr = hospitalName[i];
+                shortestHospitalContact = hospitalContact[i];
+
+                shortestPoliceFromIncident = tempDistancePolice;
+                shortestPoliceStr = policeName[i];
+                shortestPoliceContact = policeContact[i];
+            }
+            else {
+                if (tempDistanceHospital < shortestHospitalFromIncident){
+
+                    shortestHospitalFromIncident = tempDistanceHospital;
+                    shortestHospitalStr = hospitalName[i];
+                    shortestHospitalContact = hospitalContact[i];
+                }
+
+                if (tempDistancePolice < shortestPoliceFromIncident){
+
+                    shortestPoliceFromIncident = tempDistancePolice;
+                    shortestPoliceStr = policeName[i];
+                    shortestPoliceContact = policeContact[i];
+                }
+            }
+        }
+
+        return shortestPoliceContact;
+    }
 }
