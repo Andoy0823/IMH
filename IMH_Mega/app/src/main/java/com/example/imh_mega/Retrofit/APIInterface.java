@@ -5,6 +5,7 @@ import com.example.imh_mega.Fragments.Models.CoordinateLongitudeModel;
 import com.example.imh_mega.Fragments.Models.IncidentCheckerModel;
 import com.example.imh_mega.Fragments.Models.LocationHistorySpinnerModel;
 import com.example.imh_mega.Fragments.Models.autoCompleteModel;
+import com.example.imh_mega.Fragments.Models.incidentFinalModel;
 import com.example.imh_mega.Fragments.Models.incidentInitialModel;
 import com.example.imh_mega.Fragments.Models.searchRiderModel;
 import com.example.imh_mega.Login.Models.VipModel;
@@ -34,6 +35,14 @@ public interface APIInterface {
                                 @Field("VipConfirmPassword") String vipConfirmPassword,
                                 @Field("VipPhone") String vipPhone,
                                 @Field("VipAddress") String vipAddress);
+
+    @FormUrlEncoded
+    @POST("app_insertToIncidentFinal.php")
+
+    Call<incidentFinalModel> insertToFinal(@Field("FinalImpactLatitude") String FinalLatitude,
+                                           @Field("FinalImpactLongitude") String FinalLongitude,
+                                           @Field("HospitalName") String Hospital,
+                                           @Field("PoliceName") String Police);
 
     @GET("app_homeatcrider.php")
     Call<List<autoCompleteModel>> getRiderNames();

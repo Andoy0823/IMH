@@ -26,6 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.imh_mega.Fragments.Models.IncidentCheckerModel;
+import com.example.imh_mega.Fragments.Models.incidentFinalModel;
 import com.example.imh_mega.Retrofit.APIInterface;
 import com.example.imh_mega.Retrofit.ApiClient;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -165,6 +166,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void startAlarm(String latitude, String longitude, String hospital, String police, String hospitalNumber, String policeNumber){
+
         //ALARM SOUND
         alarmMP = MediaPlayer.create(this, R.raw.thesisalarmfinal);
         alarmMP.start();
@@ -199,6 +201,38 @@ public class MainActivity extends AppCompatActivity {
         txtViewAlertLong.setText("LONGITUDE: " + longitude);
         txtViewAlertHospital.setText("HOSPITAL: " + hospital);
         txtViewAlertPolice.setText("POLICE: " + police);
+
+        Call<incidentFinalModel> incidentFinalModelCall = apiInterface.insertToFinal(
+                latitude,
+                longitude,
+                hospital,
+                police
+                );
+        
+        incidentFinalModelCall.enqueue(new Callback<incidentFinalModel>() {
+            @Override
+            public void onResponse(Call<incidentFinalModel> call, Response<incidentFinalModel> response) {
+
+                if (response.body() != null){
+
+                    incidentFinalModel incidentFinalMowdel = response.body();
+
+                    if (incidentFinalMowdel.isSuccess()){
+                        Toast.makeText(MainActivity.this, "Data inserted", Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        Toast.makeText(MainActivity.this, "Failed to insert data", Toast.LENGTH_SHORT).show();
+                    }
+
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<incidentFinalModel> call, Throwable t) {
+                Toast.makeText(MainActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
 
         btnAlertBack.setEnabled(true);
         btnAlertBack.setOnClickListener(new View.OnClickListener() {
@@ -242,9 +276,7 @@ public class MainActivity extends AppCompatActivity {
                     if (counter == 1){
                         a = incidentCheckerMowdelList.size();
                         if (a > b){
-                            //Toast.makeText(MainActivity.this, "Array Size: " + a + " > " + b, Toast.LENGTH_SHORT).show();
-
-
+                            //Toast.makeText(MainActivity.this, "Array Size: " + a + " > " + b, Toast.LENGTH_SHORT).show()
 
                             for (IncidentCheckerModel incidentCheckerModel : incidentCheckerMowdelList){
 
