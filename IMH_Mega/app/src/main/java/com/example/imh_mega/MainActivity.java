@@ -6,8 +6,12 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
 import android.location.Location;
+import android.media.MediaPlayer;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.widget.Toast;
 
 import com.example.imh_mega.Fragments.Models.IncidentCheckerModel;
@@ -53,8 +57,11 @@ public class MainActivity extends AppCompatActivity {
 
     Handler handler;
     Runnable runnable;
+    Vibrator vibrator;
     int startScanner=10;
     Boolean scanning = true;
+
+    MediaPlayer alarmMP;
 
     //Array Check Loop
     private Handler arrayCheckHandler = new Handler();
@@ -69,11 +76,13 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         NavController navController = Navigation.findNavController(this,R.id.nav_host_fragment);
 
+
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
 
         initialLocation = new Location("");
         hospitalLocation = new Location("");
         policeLocation = new Location("");
+        vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
 
         //Initial Testing of Distance checker. Init Value = Bahay ni Red.
         /*
@@ -153,6 +162,7 @@ public class MainActivity extends AppCompatActivity {
 
         arrayCheckRunnable.run();
 
+
         /*
         //Static Value of Incident
         initialLocation.setLatitude(14.402138);
@@ -200,10 +210,15 @@ public class MainActivity extends AppCompatActivity {
         */
     }
 
+    public void startAlarm(){
+        alarmMP = MediaPlayer.create(this, R.raw.thesisalarmfinal);
+
+        alarmMP.start();
+    }
+
     private Runnable arrayCheckRunnable = new Runnable() {
         @Override
         public void run() {
-
             Call<List<IncidentCheckerModel>> incidentModelCall = apiInterface.checkIncident();
 
             incidentModelCall.enqueue(new Callback<List<IncidentCheckerModel>>() {
@@ -236,7 +251,14 @@ public class MainActivity extends AppCompatActivity {
                             }
 
                             Toast.makeText(MainActivity.this, "Latitude: " + lawtitude + " Longitude: " + lowgitude, Toast.LENGTH_SHORT).show();
-
+                            if (Build.VERSION.SDK_INT >= 26 ){
+                                vibrator.vibrate(VibrationEffect.createOneShot(7000, VibrationEffect.DEFAULT_AMPLITUDE));
+                                startAlarm();
+                            }
+                            else{
+                                vibrator.vibrate(7000);
+                                startAlarm();
+                            }
 
                             counter = 0;
                         }
