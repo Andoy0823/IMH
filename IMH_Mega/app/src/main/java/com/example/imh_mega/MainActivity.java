@@ -173,13 +173,13 @@ public class MainActivity extends AppCompatActivity {
 
         //ALARM TEXT TO HOSPITAL
         SmsManager smsManager = SmsManager.getDefault();
-        String txtMessage = "URGENT HOSPITAL! Incident Detected! Coordinates at: " + latitude + ", " + longitude ;
+        String txtMessage = "URGENT HOSPITAL! Incident Detected! Coordinates at: " + latitude + ", " + longitude + " --" + hospital ;
         smsManager.sendTextMessage(hospitalNumber, null, txtMessage, null, null);
 
 
         //ALARM TEXT TO POLICE
         SmsManager smsManagerPolice = SmsManager.getDefault();
-        String txtPolice = "URGENT POLICE! Incident Detected! Coordinates at: " + latitude + ", " + longitude ;
+        String txtPolice = "URGENT POLICE! Incident Detected! Coordinates at: " + latitude + ", " + longitude + " --" + police;
         smsManagerPolice.sendTextMessage(policeNumber, null, txtPolice, null, null);
 
         Toast.makeText(MainActivity.this, "Message Sent to " + hospitalNumber + ", " + policeNumber, Toast.LENGTH_SHORT).show();
